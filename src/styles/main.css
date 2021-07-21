@@ -1,13 +1,25 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('../assets/fonts/Roboto-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
 :root {
     --color-1: #0083FF;
+    --font-1: 'Roboto';
+}
+
+body {
+    font-family: var(--font-1);
 }
 
 .nav-bar-container {
     display: grid;
     grid-template-rows: 50px;
-    grid-template-columns: 20px 50px 1fr 50px 100px;
+    grid-template-columns: 20px 50px 1fr 50px 100px 20px;
     grid-template-areas:
-    ". menu-btn . add-item-btn login-btn";
+    ". menu-btn . add-item-btn login-btn .";
     height: 50px;
     background-color: var(--color-1);
     justify-items: center;
@@ -30,4 +42,6 @@
     padding: 5px 20px 5px 20px;
     background-color: white;
     border-radius: 5px;
+    font-family: var(--font-1);
+    color: var(--color-1);
 }
