@@ -52,6 +52,7 @@ body {
 /* Main Content Information */
 
 .content-container {
+    /* Subtracted 60 because it's the height of the nav bar*/
     height: calc(100vh - 60px);
     display: grid;
     grid-template-columns: 350px 1fr;
@@ -60,7 +61,34 @@ body {
     "left-content-container right-content-container";
 }
 
+/* Left Content Information */
+
 .left-content-container {
     grid-area: left-content-container;
     border-right: 2px solid var(--color-2);
+}
+
+.tabs-container {
+    margin-left: 50px;
+    margin-top: 50px;
+}
+
+.tab {
+    margin: 25px;
+}
+
+.inbox-tab {
+    font-weight: normal;
+}
+
+.today-tab {
+    font-weight: bold;
+}
+
+.this-week-tab {
+    font-weight: normal;
+}
+
+.projects-tab {
+    font-weight: normal;
 }
