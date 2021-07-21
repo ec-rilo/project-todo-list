@@ -1,0 +1,33 @@
+:root {
+    --color-1: #0083FF;
+}
+
+.nav-bar-container {
+    display: grid;
+    grid-template-rows: 50px;
+    grid-template-columns: 20px 50px 1fr 50px 100px;
+    grid-template-areas:
+    ". menu-btn . add-item-btn login-btn";
+    height: 50px;
+    background-color: var(--color-1);
+    justify-items: center;
+    align-items: center;
+}
+
+.small-btn {
+    height: 25px;
+    width: 25px;
+    /* Makes black png images white */
+    filter: brightness(0) invert(1);
+}
+
+#menu-btn {
+    grid-area: menu-btn;
+}
+
+#login-btn {
+    grid-area: login-btn;
+    padding: 5px 20px 5px 20px;
+    background-color: white;
+    border-radius: 5px;
+}
