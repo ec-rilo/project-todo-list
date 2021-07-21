@@ -8,6 +8,7 @@
 :root {
     --color-1: #0083FF;
     --color-2: #C4C4C4;
+    --color-3: #9B9B9B;
     --font-1: 'Roboto';
 }
 
@@ -91,4 +92,28 @@ body {
 
 .projects-tab {
     font-weight: normal;
+}
+
+/* Right content information */
+
+.right-content-container {
+    position: relative;
+}
+
+.right-content-info-container {
+    margin-top: 80px;
+    margin-left: 100px;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.no-content-text {
+    position: absolute;
+    color: var(--color-3);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);    
 }
