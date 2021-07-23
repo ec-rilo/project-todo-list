@@ -1,5 +1,7 @@
 'use strict';
 
+/* Nav Bar Code */
+
 function createHamBtn() {
     const hamBtnContainer = document.createElement('a');
     hamBtnContainer.setAttribute('href', '#');
@@ -47,6 +49,8 @@ function createNavBar() {
     return navBarContainer;
 }
 
+/* Content Container Code */
+
 function createTabsContainer() {
     const tabsContainer = document.createElement('ul');
     tabsContainer.classList.add('tabs-container');
@@ -78,32 +82,41 @@ function createLeftContentContainer() {
     return leftContentContainer;
 }
 
+function createRightContentContainer() {
+    const rightContentContainer = document.createElement('div');
+    rightContentContainer.classList.add('right-content-container');
+
+    const rightContentInfoContainer = document.createElement('div');
+    rightContentInfoContainer.classList.add('right-content-info-container');
+    rightContentContainer.appendChild(rightContentInfoContainer);
+
+    const title = document.createElement('p');
+    title.classList.add('title');
+    title.innerHTML = 'Today';
+
+    rightContentInfoContainer.appendChild(title);
+
+    const noContentNotif = document.createElement('p');
+    noContentNotif.classList.add('no-content-text');
+    noContentNotif.innerHTML = 'There\'s Nothing Here...';
+
+    rightContentContainer.appendChild(noContentNotif);
+
+    return rightContentContainer;
+
+}
+
 function createContentContainer() {
     const contentContainer = document.createElement('div');
     contentContainer.classList.add('content-container');
 
     contentContainer.appendChild(createLeftContentContainer());
+    contentContainer.appendChild(createRightContentContainer());
 
     return contentContainer;
 }
 
-{/* <div class="content-container">
-        <div class="left-content-container">
-            <ul class="tabs-container">
-                <li class="tab"><p class="inbox-tab">Inbox</p></li>
-                <li class="tab"><p class="today-tab">Today</p></li>
-                <li class="tab"><p class="this-week-tab">This Week</p></li>
-                <li class="tab"><p class="projects-tab">Projects</p></li>
-            </ul>
-        </div>
-
-        <div class="right-content-container">
-            <div class="right-content-info-container">
-                <p class="title">Today</p>
-            </div>
-            <p class="no-content-text">There's Nothing Here...</p>
-        </div>
-    </div> */}
+/* Create Landing Page Code */
 
 let createLandingPage = (() => {
     const landingPageDiv = document.createElement('div');
