@@ -10,7 +10,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Project-Todo List',
-      template: './src/index.html'
+      template: './src/index.ejs'
     })
   ],
   module: {
