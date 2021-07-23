@@ -47,12 +47,72 @@ function createNavBar() {
     return navBarContainer;
 }
 
+function createTabsContainer() {
+    const tabsContainer = document.createElement('ul');
+    tabsContainer.classList.add('tabs-container');
+
+    const numOfTabs = 4;
+    const tabNamesArr = ['Inbox', 'Today', 'This Week', 'Projects'];
+    const tabClassNamesArr = ['inbox-tab', 'today-tab', 'this-week-tab', 'projects-tab'];
+    
+    for (let i = 0; i < numOfTabs; ++i) {
+        const tab = document.createElement('li');
+        tab.classList.add('tab');
+        tabsContainer.appendChild(tab);
+
+        const tabText = document.createElement('p');
+        tabText.classList.add(tabClassNamesArr[i]);
+        tabText.innerHTML = tabNamesArr[i];
+        tab.appendChild(tabText);
+    }
+
+    return tabsContainer;
+}
+
+function createLeftContentContainer() {
+    const leftContentContainer = document.createElement('div');
+    leftContentContainer.classList.add('left-content-container');
+
+    leftContentContainer.appendChild(createTabsContainer());
+
+    return leftContentContainer;
+}
+
+function createContentContainer() {
+    const contentContainer = document.createElement('div');
+    contentContainer.classList.add('content-container');
+
+    contentContainer.appendChild(createLeftContentContainer());
+
+    return contentContainer;
+}
+
+{/* <div class="content-container">
+        <div class="left-content-container">
+            <ul class="tabs-container">
+                <li class="tab"><p class="inbox-tab">Inbox</p></li>
+                <li class="tab"><p class="today-tab">Today</p></li>
+                <li class="tab"><p class="this-week-tab">This Week</p></li>
+                <li class="tab"><p class="projects-tab">Projects</p></li>
+            </ul>
+        </div>
+
+        <div class="right-content-container">
+            <div class="right-content-info-container">
+                <p class="title">Today</p>
+            </div>
+            <p class="no-content-text">There's Nothing Here...</p>
+        </div>
+    </div> */}
+
 let createLandingPage = (() => {
     const content = document.querySelector('#content');
 
     const navBar = createNavBar();
+    const contentContainer = createContentContainer();
     
     content.appendChild(navBar);
+    content.appendChild(contentContainer);
 
     return content;
 })();
