@@ -16,7 +16,7 @@ function createHamBtn() {
 function createNavBar() {
     const navBarContainer = document.createElement('div');
     navBarContainer.classList.add('nav-bar-container');
-
+    
     navBarContainer.appendChild(createHamBtn());
 
     return navBarContainer;
