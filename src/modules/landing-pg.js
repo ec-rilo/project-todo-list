@@ -106,15 +106,16 @@ function createContentContainer() {
     </div> */}
 
 let createLandingPage = (() => {
-    const content = document.querySelector('#content');
+    const landingPageDiv = document.createElement('div');
+    landingPageDiv.classList.add('landing-page-div');
 
     const navBar = createNavBar();
     const contentContainer = createContentContainer();
     
-    content.appendChild(navBar);
-    content.appendChild(contentContainer);
+    landingPageDiv.appendChild(navBar);
+    landingPageDiv.appendChild(contentContainer);
 
-    return content;
+    return landingPageDiv;
 })();
 
 export {
