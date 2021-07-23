@@ -45,6 +45,7 @@ body {
 
 .increment-note-btn {
     grid-area: add-item-btn;
+    text-decoration: none;
 }
 
 .increment-note-text {
