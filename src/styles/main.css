@@ -43,8 +43,11 @@ body {
     border-radius: 5px;
 }
 
-.add-item-btn {
+.increment-note-btn {
     grid-area: add-item-btn;
+}
+
+.increment-note-text {
     color: var(--color-4);
     font-size: 25px;
 }

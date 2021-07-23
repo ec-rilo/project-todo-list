@@ -13,11 +13,25 @@ function createHamBtn() {
     return hamBtnContainer;
 }
 
+function createIncrementNoteBtn() {
+    const incrementBtn = document.createElement('a');
+    incrementBtn.setAttribute('href', '#');
+    incrementBtn.classList.add('increment-note-btn');
+
+    const incrementBtnTxt = document.createElement('p');
+    incrementBtnTxt.innerHTML = '+';
+    incrementBtnTxt.classList.add('increment-note-text');
+    incrementBtn.appendChild(incrementBtnTxt);
+
+    return incrementBtn;
+}
+
 function createNavBar() {
     const navBarContainer = document.createElement('div');
     navBarContainer.classList.add('nav-bar-container');
     
     navBarContainer.appendChild(createHamBtn());
+    navBarContainer.appendChild(createIncrementNoteBtn());
 
     return navBarContainer;
 }
