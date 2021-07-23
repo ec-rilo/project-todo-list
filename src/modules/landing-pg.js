@@ -1,3 +1,5 @@
+'use strict';
+
 function createHamBtn() {
     const hamBtnContainer = document.createElement('a');
     hamBtnContainer.setAttribute('href', '#');
@@ -26,12 +28,21 @@ function createIncrementNoteBtn() {
     return incrementBtn;
 }
 
+function createLoginBtn() {
+    const loginBtn = document.createElement('button');
+    loginBtn.innerHTML = 'Sign in';
+    loginBtn.classList.add('login-btn');
+
+    return loginBtn;
+}
+
 function createNavBar() {
     const navBarContainer = document.createElement('div');
     navBarContainer.classList.add('nav-bar-container');
     
     navBarContainer.appendChild(createHamBtn());
     navBarContainer.appendChild(createIncrementNoteBtn());
+    navBarContainer.appendChild(createLoginBtn());
 
     return navBarContainer;
 }

@@ -8,5 +8,6 @@ init();
 
 
 function init() {
-    console.log(createLandingPage);
+    const content = document.querySelector('#content');
+
 }
