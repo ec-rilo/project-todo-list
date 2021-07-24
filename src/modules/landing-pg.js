@@ -103,7 +103,6 @@ function createRightContentContainer() {
     rightContentContainer.appendChild(noContentNotif);
 
     return rightContentContainer;
-
 }
 
 function createContentContainer() {
