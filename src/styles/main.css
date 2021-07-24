@@ -10,6 +10,7 @@
     --color-2: #C4C4C4;
     --color-3: #9B9B9B;
     --color-4: #FFF;
+    --color-5: #000;
     --font-1: 'Roboto';
 }
 
@@ -91,6 +92,11 @@ body {
 
 .tab {
     margin: 25px;
+}
+
+.single-tab {
+    text-decoration: none;
+    color: var(--color-5);
 }
 
 .inbox-tab {
