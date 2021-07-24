@@ -1,36 +1,37 @@
 'use strict'
 
 class Note {
-    constructor(noteTitle, noteBody) {
+    constructor(title, bodyText) {
         this.noteTitle = noteTitle;
         this.noteBody = noteBody;
     }
 
-    get noteTitle() {
-        return this.noteTitle;
+    get title() {
+        return this.title;
     }
 
-    set noteTitle(newTitle) {
+    set title(newTitle) {
         if (newTitle.length < 0) {
             alert('Title is to short, please try again.');
             return;
         }
-        this._noteTitle = newTitle;
+        this._title = newTitle;
     }
     
-    get noteBody() {
-        return this.noteBody;
+    get bodyText() {
+        return this.bodyText;
     }
 
-    set noteBody(newBody) {
+    set bodyText(newBody) {
         if (newBody.length < 0) {
             alert('Body is to short, please try again.');
         }
-        this._noteBody = newBody;
+        this.bodyText = newBody;
     }
 
-    createNote() {
-
+    createNote(title, noteBody) {
+        // Create the element that will create a note using info from the note
+        
     }
 }
 
@@ -52,11 +53,14 @@ class Tab {
     }
 }
 
-
+function addNote() {
+    
+}
 
 let noteProgram = (() => {
     const incrementNoteBtn = document.querySelector('.increment-note-btn');
     const pageTitle = document.querySelector('.title');
+    const noContentText = document.querySelector('.no-content-text');
 
     const inboxTab = new Tab('Inbox');
     const todayTab = new Tab('Today');
@@ -64,22 +68,24 @@ let noteProgram = (() => {
 
     incrementNoteBtn.addEventListener('click', () => {
         if (pageTitle.innerHTML === 'Inbox') {
+            noContentText.style.display = 'none';
             inboxTab.createNote();
         }
         else if (pageTitle.innerHTML === 'Today') {
+            noContentText.style.display = 'none';
             console.log('Today');
         }
         else if (pageTitle.innerHTML === 'This Week') {
+            noContentText.style.display = 'none';
             console.log('This Week');
         }
     });
     // When the user clicks on the add a note button
     // Check what storage to use
     // If the storage is Inbox
-        // Add the note to the inbox storage
-    // If the storage is Today use Today
-    // If the storage is This Week use this week
-    // If it's projects don't do anything yet because projects is fucking complex.
+        // populate page with a note creation and remove "There is nothing here..." text.
+        // If user inputs nothing delete the note and if there are no notes currently then display "There is nothing here..."
+
 });
 
 let switchTabs = (() => {
