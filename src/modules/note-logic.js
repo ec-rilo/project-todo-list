@@ -29,9 +29,26 @@ class Note {
         this.bodyText = newBody;
     }
 
-    createNote(title, noteBody) {
-        // Create the element that will create a note using info from the note
-        
+    createNote(title, time) {
+
+        const noteContainer = document.createElement('div');
+        noteContainer.classList.add('note-container');
+    
+        const checkBubble = document.createElement('div');
+        checkBubble.classList.add('check-bubble');
+        noteContainer.appendChild(checkBubble);
+
+        const noteTitle = document.createElement('p');
+        noteTitle.classList.add('note-text', 'note-title')
+        noteTitle = `${this.title}`;
+        noteContainer.appendChild(noteTitle);
+    
+        const noteTime = document.createElement('p');
+        noteTime.classList.add('note-text', 'note-time');
+        noteTime = `${this.time}`;
+        noteContainer.appendChild(noteTime);
+
+        return noteContainer;
     }
 }
 
@@ -47,14 +64,6 @@ class Tab {
     set name(newName) {
         this._name = newName;
     }
-
-    createNote() {
-        console.log('PASS');
-    }
-}
-
-function addNote() {
-    
 }
 
 let noteProgram = (() => {
