@@ -11,6 +11,7 @@
     --color-3: #9B9B9B;
     --color-4: #FFF;
     --color-5: #000;
+    --color-6: rgba(255, 255, 255, .3);
     --font-1: 'Roboto';
 }
 
@@ -46,7 +47,23 @@ body {
 
 .increment-note-btn {
     grid-area: add-item-btn;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
+    width: 30px;
+    height: 30px;
+}
+
+.increment-note-btn:hover {
+    background-color: var(--color-6);
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.increment-note-btn:active {
+    transform: scale(.8);
 }
 
 .increment-note-text {
