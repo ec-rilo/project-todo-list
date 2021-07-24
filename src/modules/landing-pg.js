@@ -64,8 +64,10 @@ function createTabsContainer() {
         tab.classList.add('tab');
         tabsContainer.appendChild(tab);
 
-        const tabText = document.createElement('p');
+        const tabText = document.createElement('a');
+        tabText.setAttribute('href', '#');
         tabText.classList.add(tabClassNamesArr[i]);
+        tabText.classList.add('single-tab');
         tabText.innerHTML = tabNamesArr[i];
         tab.appendChild(tabText);
     }
@@ -128,7 +130,7 @@ let createLandingPage = (() => {
     landingPageDiv.appendChild(contentContainer);
 
     return landingPageDiv;
-})();
+});
 
 export {
     createLandingPage
