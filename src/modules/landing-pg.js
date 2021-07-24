@@ -128,7 +128,7 @@ let createLandingPage = (() => {
     landingPageDiv.appendChild(contentContainer);
 
     return landingPageDiv;
-})();
+});
 
 export {
     createLandingPage
