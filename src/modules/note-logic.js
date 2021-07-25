@@ -1,13 +1,14 @@
 'use strict'
 
 class Note {
-    constructor(title, bodyText) {
-        this.noteTitle = noteTitle;
-        this.noteBody = noteBody;
+    constructor(title, time, bodyText) {
+        this.title = title;
+        this.noteBody = bodyText;
+        this.time = time;
     }
 
     get title() {
-        return this.title;
+        return this._title;
     }
 
     set title(newTitle) {
@@ -29,24 +30,62 @@ class Note {
         this.bodyText = newBody;
     }
 
-    createNote(title, time) {
+    get time() {
+        return this._time;
+    }
 
-        const noteContainer = document.createElement('div');
+    set time(newTime) {
+        this._time = newTime;
+    }
+
+    createNote() {
+        let noteContainer = document.createElement('div');
         noteContainer.classList.add('note-container');
     
         const checkBubble = document.createElement('div');
         checkBubble.classList.add('check-bubble');
         noteContainer.appendChild(checkBubble);
-
-        const noteTitle = document.createElement('p');
-        noteTitle.classList.add('note-text', 'note-title')
-        noteTitle = `${this.title}`;
-        noteContainer.appendChild(noteTitle);
     
-        const noteTime = document.createElement('p');
+        let noteTime = document.createElement('p');
         noteTime.classList.add('note-text', 'note-time');
-        noteTime = `${this.time}`;
+        noteTime.innerHTML = `${this.time}`;
         noteContainer.appendChild(noteTime);
+
+        let separator = document.createElement('p');
+        separator.classList.add('separator')
+        separator.innerHTML = ' - ';
+        noteContainer.appendChild(separator);
+
+        let noteTitle = document.createElement('p');
+        noteTitle.classList.add('note-text');
+        noteTitle.innerHTML = `${this.title}`;
+        noteContainer.appendChild(noteTitle);
+
+        return noteContainer;
+    }
+
+    createNoteInput() {
+        let noteContainer = document.createElement('div');
+        noteContainer.classList.add('note-container');
+    
+        const checkBubble = document.createElement('div');
+        checkBubble.classList.add('check-bubble');
+        noteContainer.appendChild(checkBubble);
+    
+        let noteTime = document.createElement('p');
+        noteTime.classList.add('note-text', 'note-time');
+        noteTime.innerHTML = `${this.time}`;
+        noteContainer.appendChild(noteTime);
+
+        let separator = document.createElement('p');
+        separator.classList.add('separator')
+        separator.innerHTML = ' - ';
+        noteContainer.appendChild(separator);
+
+        let noteTitle = document.createElement('p');
+        noteTitle.classList.add('note-text');
+        noteTitle.innerHTML = `${this.title}`;
+        noteContainer.appendChild(noteTitle);
 
         return noteContainer;
     }
@@ -66,34 +105,45 @@ class Tab {
     }
 }
 
-let noteProgram = (() => {
-    const incrementNoteBtn = document.querySelector('.increment-note-btn');
+function populateNotes() {
     const pageTitle = document.querySelector('.title');
     const noContentText = document.querySelector('.no-content-text');
+    const notesContainer = document.querySelector('.notes-container');
 
-    const inboxTab = new Tab('Inbox');
-    const todayTab = new Tab('Today');
-    const thisWeekTab = new Tab('This Week');
+    const inboxNote = new Note('Work', '6:00am', 'p');
+    const todayNote = new Tab('Today');
+    const thisWeekNote = new Tab('This Week');
+    
+    if (pageTitle.innerHTML === 'Inbox') {
+        // If inbox notes has no notes display the no content text
+        // else
+        // Load the inbox notes
+        noContentText.style.color = 'red';
+        console.log('red');
+        notesContainer.appendChild(inboxNote.createNote());
+    }
+    else if (pageTitle.innerHTML === 'Today') {
+        // If today notes has no notes display the no content text
+        // else
+        // load the  today notes
+        noContentText.style.color = 'green';
+        console.log('Today');
+        console.log('green');
+    }
+    else if (pageTitle.innerHTML === 'This Week') {
+        // If today notes has no notes display the no content text
+        // else
+        // load the this week notes
+        noContentText.style.color = 'blue';
+        console.log('This Week');
+        console.log('blue');
+    }
+}
 
-    incrementNoteBtn.addEventListener('click', () => {
-        if (pageTitle.innerHTML === 'Inbox') {
-            noContentText.style.display = 'none';
-            inboxTab.createNote();
-        }
-        else if (pageTitle.innerHTML === 'Today') {
-            noContentText.style.display = 'none';
-            console.log('Today');
-        }
-        else if (pageTitle.innerHTML === 'This Week') {
-            noContentText.style.display = 'none';
-            console.log('This Week');
-        }
-    });
-    // When the user clicks on the add a note button
-    // Check what storage to use
-    // If the storage is Inbox
-        // populate page with a note creation and remove "There is nothing here..." text.
-        // If user inputs nothing delete the note and if there are no notes currently then display "There is nothing here..."
+let loadTabInfo = (() => {
+
+    let inboxNotesArr = [];
+    localStorage.setItem('inboxNotesStorage', inboxNotesArr);
 
 });
 
@@ -101,17 +151,17 @@ let switchTabs = (() => {
     const pageTitle = document.querySelector('.title');
 
     if (pageTitle.innerHTML === 'Inbox') {
-        console.log('Inbox');
+        populateNotes();
     }
     else if (pageTitle.innerHTML === 'Today') {
-        console.log('Today');
+        populateNotes();
     }
     else if (pageTitle.innerHTML === 'This Week') {
-        console.log('This Week');
+        populateNotes();
     }
 });
 
 export {
     switchTabs,
-    noteProgram
+    loadTabInfo
 }

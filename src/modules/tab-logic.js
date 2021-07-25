@@ -1,8 +1,8 @@
 import {switchTabs} from './note-logic.js';
-import {noteProgram} from './note-logic.js';
+import {loadTabInfo} from './note-logic.js';
 
 const tabProgram = (() => {
-    noteProgram();
+    loadTabInfo();
 
     const inboxTab = document.querySelector('.inbox-tab');
     const todayTab = document.querySelector('.today-tab');
