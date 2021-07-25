@@ -113,14 +113,14 @@ function populateNotes() {
     const inboxNote = new Note('Work', '6:00am', 'p');
     const todayNote = new Tab('Today');
     const thisWeekNote = new Tab('This Week');
+
+    
     
     if (pageTitle.innerHTML === 'Inbox') {
         // If inbox notes has no notes display the no content text
         // else
         // Load the inbox notes
         noContentText.style.color = 'red';
-        console.log('red');
-        notesContainer.appendChild(inboxNote.createNote());
     }
     else if (pageTitle.innerHTML === 'Today') {
         // If today notes has no notes display the no content text
@@ -140,12 +140,47 @@ function populateNotes() {
     }
 }
 
-let loadTabInfo = (() => {
+function addNote() {
+    
+}
 
-    let inboxNotesArr = [];
-    localStorage.setItem('inboxNotesStorage', inboxNotesArr);
+let incrementNoteListener = ((title) => {
+    let titleName = title.innerHTML;
 
+    let incrementBtn = document.querySelector('.increment-note-btn');
+    incrementBtn.addEventListener('click', () => {
+
+        let noContentText = document.querySelector('.no-content-text');
+        if (window.getComputedStyle(noContentText).display === 'block') {
+            noContentText.style.display = 'none';
+        }
+
+        if (titleName === 'Inbox') {
+            // Get the inbox array of notes
+            // Add a new note to the array that will create a input note.
+            // The user will input the note
+            // if the user's input had no value delete the created input element.
+                // if the current tab storage has no notes set no content-text-display to block
+            // else if the user input a value then add the note to the correct tab storages
+        }
+        else if (titleName === 'Today') {
+
+        }
+        else if (titleName === 'This Week') {
+
+        }
+        
+
+    });
 });
+
+// When the user clicks on the increment button - DONE
+// if the no content text display is block set to hidden - DONE
+// The current tabs page will populate with a input asking for the users note
+// The user will input the note
+// if the user's input had no value delete the created input element.
+    // if the current tab storage has no notes set no content-text-display to block
+// else if the user input a value then add the note to the correct tab storage
 
 let switchTabs = (() => {
     const pageTitle = document.querySelector('.title');
@@ -163,5 +198,6 @@ let switchTabs = (() => {
 
 export {
     switchTabs,
-    loadTabInfo
+    incrementNoteListener,
+    Note
 }
