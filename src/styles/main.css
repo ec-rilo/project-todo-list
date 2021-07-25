@@ -197,6 +197,7 @@ body {
 }
 
 .no-content-text {
+    display: block;
     position: absolute;
     color: var(--color-3);
     top: 50%;
