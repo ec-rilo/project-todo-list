@@ -174,7 +174,6 @@ body {
 }
 
 .note-text {
-    font-size: 15px;
 }
 
 .note-time {
@@ -203,4 +202,22 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);    
+}
+
+/* Note Input creation */
+
+.note-input-container {
+    height: 30px;
+    width: 100%;
+}
+
+.note-input {
+    border: none;
+    height: 100%;
+    width: 100%;
+    font-size: 15px;
+}
+
+.note-input:focus {
+    outline: none;
 }
