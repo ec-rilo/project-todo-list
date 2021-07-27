@@ -117,10 +117,29 @@ function createNoteInput() {
     return noteContainer;
 }
 
+function addBlackOverlay() {
+    let body = document.querySelector('body');
+
+    let blackOverlay = document.createElement('div');
+    blackOverlay.classList.add('black-overlay');
+
+    console.log(blackOverlay);
+    body.appendChild(blackOverlay);
+}
+
+function removeBlackOverlay() {
+    let blackOverlay = document.createElement('.black-overlay');
+    blackOverlay.remove();
+}
+
 /* Note Logic */
 
 function addNoContentText(noContentText) {    
     noContentText.style.display = 'block'; 
+}
+
+function removeNoContentText(noContentText) {
+    noContentText.style.display = 'none';
 }
 
 function loadNotes(tabName, tabStorageArr) {
@@ -185,21 +204,17 @@ let incrementNoteListener = ((title) => {
 
         let noContentText = document.querySelector('.no-content-text');
         if (window.getComputedStyle(noContentText).display === 'block') {
-            noContentText.style.display = 'none';
+            removeNoContentText(noContentText);
         }
 
         if (titleName === 'Inbox') {
-            // Add a new note to the array that will create a input note.
-            // The user will input the note
-            // if the user's input had no value delete the created input element.
-                // if the current tab storage has no notes set no content-text-display to block
-            // else if the user input a value then add the note to the correct tab storages
+            addBlackOverlay();
         }
         else if (titleName === 'Today') {
-            
+            addBlackOverlay();
         }
         else if (titleName === 'This Week') {
-
+            addBlackOverlay();
         }
         
 
