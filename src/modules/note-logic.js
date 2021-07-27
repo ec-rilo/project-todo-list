@@ -3,6 +3,8 @@ import {todayNotesArr} from '../index.js';
 
 'use strict'
 
+/* Note Classes */
+
 class Note {
     constructor(noteTitle, noteTime, noteText) {
         this.title = noteTitle;
@@ -33,48 +35,64 @@ class Note {
     set time(newTime) {
         this._time = newTime;
     }
+}
 
-    createSimpleNote() {
-        let noteContainer = document.createElement('div');
-        noteContainer.classList.add('note-container');
+class Tab {
+    constructor(name) {
+        this.name = name;
+    }
+
+    get name() {
+        return this.name;
+    }
+
+    set name(newName) {
+        this._name = newName;
+    }
+}
+
+/* DOM creation functions */
+
+function createSimpleNote() {
+    let noteContainer = document.createElement('div');
+    noteContainer.classList.add('note-container');
     
-        const checkBubble = document.createElement('div');
-        checkBubble.classList.add('check-bubble');
-        noteContainer.appendChild(checkBubble);
+    const checkBubble = document.createElement('div');
+    checkBubble.classList.add('check-bubble');
+    noteContainer.appendChild(checkBubble);
         
-        let bodyText = document.createElement('p');
-        bodyText.classList.add('note-text');
-        bodyText.innerHTML = `${this._text}`;
-        noteContainer.appendChild(bodyText);
+    let bodyText = document.createElement('p');
+    bodyText.classList.add('note-text');
+    bodyText.innerHTML = `${this._text}`;
+    noteContainer.appendChild(bodyText);
 
-        return noteContainer;
-    }
+    return noteContainer;
+}
 
-    createComplexNote() {
-        let noteContainer = document.createElement('div');
-        noteContainer.classList.add('note-container');
+function createComplexNote() {
+    let noteContainer = document.createElement('div');
+    noteContainer.classList.add('note-container');
     
-        const checkBubble = document.createElement('div');
-        checkBubble.classList.add('check-bubble');
-        noteContainer.appendChild(checkBubble);
+    const checkBubble = document.createElement('div');
+    checkBubble.classList.add('check-bubble');
+    noteContainer.appendChild(checkBubble);
     
-        let noteTime = document.createElement('p');
-        noteTime.classList.add('note-text', 'note-time');
-        noteTime.innerHTML = `${this.time}`;
-        noteContainer.appendChild(noteTime);
+    let noteTime = document.createElement('p');
+    noteTime.classList.add('note-text', 'note-time');
+    noteTime.innerHTML = `${this.time}`;
+    noteContainer.appendChild(noteTime);
 
-        let separator = document.createElement('p');
-        separator.classList.add('separator')
-        separator.innerHTML = ' - ';
-        noteContainer.appendChild(separator);
+    let separator = document.createElement('p');
+    separator.classList.add('separator')
+    separator.innerHTML = ' - ';
+    noteContainer.appendChild(separator);
 
-        let noteTitle = document.createElement('p');
-        noteTitle.classList.add('note-text');
-        noteTitle.innerHTML = `${this.title}`;
-        noteContainer.appendChild(noteTitle);
+    let noteTitle = document.createElement('p');
+    noteTitle.classList.add('note-text');
+    noteTitle.innerHTML = `${this.title}`;
+    noteContainer.appendChild(noteTitle);
 
-        return noteContainer;
-    }
+    return noteContainer;
 }
 
 function createNoteInput() {
@@ -98,19 +116,7 @@ function createNoteInput() {
     return noteContainer;
 }
 
-class Tab {
-    constructor(name) {
-        this.name = name;
-    }
-
-    get name() {
-        return this.name;
-    }
-
-    set name(newName) {
-        this._name = newName;
-    }
-}
+/* Note Logic */
 
 function populateNotes() {
     const pageTitle = document.querySelector('.title');
