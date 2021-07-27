@@ -1,5 +1,6 @@
 import {inboxNotesArr} from '../index.js';
 import {todayNotesArr} from '../index.js';
+import {thisWeekNotesArr} from '../index.js';
 
 'use strict'
 
@@ -118,35 +119,60 @@ function createNoteInput() {
 
 /* Note Logic */
 
+function addNoContentText(noContentText) {    
+    noContentText.style.display = 'block'; 
+}
+
+function loadNotes(tabName, tabStorageArr) {
+    const notesContainer = document.querySelector('.notes-container');
+
+    let numOfNotes = inboxNotesArr.length;
+    for (let i = 0; i < numOfNotes; ++i) {
+        
+    }   
+}
+
 function populateNotes(title) {
     const noContentText = document.querySelector('.no-content-text');
-    const notesContainer = document.querySelector('.notes-container');
     
     if (title.innerHTML === 'Inbox') {
-        noContentText.style.color = 'red';
-    }
-    else if (title.innerHTML === 'Today') {
         if (inboxNotesArr.length === 0) {
             if (window.getComputedStyle(noContentText).display === 'none') {
-                noContentText.style.display = 'block';
+                addNoContentText(noContentText);
                 return;
             }
             else {
-                let numOfNotes = inboxNotesArr.length;
-                for (let i = 0; i < numOfNotes; ++i) {
-                    
-                }   
+                loadNotes(title, inboxNotesArr);
             }
         }
-        
+
+        noContentText.style.color = 'red';
+    }
+    else if (title.innerHTML === 'Today') {
+        if (todayNotesArr.length === 0) {
+            if (window.getComputedStyle(noContentText).display === 'none') {
+                addNoContentText(noContentText);
+                return;
+            }
+            else {
+                loadNotes(title, todayNotesArr);
+            }
+        }
+
         noContentText.style.color = 'green';
-        console.log('Today');
-        console.log('green');
     }
     else if (title.innerHTML === 'This Week') {
+        if (thisWeekNotesArr.length === 0) {
+            if (window.getComputedStyle(noContentText).display === 'none') {
+                addNoContentText(noContentText);
+                return;
+            }
+            else {
+                loadNotes(title, thisWeekNotesArr);
+            }
+        }
+
         noContentText.style.color = 'blue';
-        console.log('This Week');
-        console.log('blue');
     }
 }
 
