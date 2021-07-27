@@ -118,15 +118,14 @@ function createNoteInput() {
 
 /* Note Logic */
 
-function populateNotes() {
-    const pageTitle = document.querySelector('.title');
+function populateNotes(title) {
     const noContentText = document.querySelector('.no-content-text');
     const notesContainer = document.querySelector('.notes-container');
     
-    if (pageTitle.innerHTML === 'Inbox') {
+    if (title.innerHTML === 'Inbox') {
         noContentText.style.color = 'red';
     }
-    else if (pageTitle.innerHTML === 'Today') {
+    else if (title.innerHTML === 'Today') {
         if (inboxNotesArr.length === 0) {
             if (window.getComputedStyle(noContentText).display === 'none') {
                 noContentText.style.display = 'block';
@@ -135,21 +134,16 @@ function populateNotes() {
             else {
                 let numOfNotes = inboxNotesArr.length;
                 for (let i = 0; i < numOfNotes; ++i) {
-                    // Call each note from the array and load it onto the page.
+                    
                 }   
             }
         }
-        // If today notes has no notes display the no content text
-        // else
-        // load the  today notes
+        
         noContentText.style.color = 'green';
         console.log('Today');
         console.log('green');
     }
-    else if (pageTitle.innerHTML === 'This Week') {
-        // If today notes has no notes display the no content text
-        // else
-        // load the this week notes
+    else if (title.innerHTML === 'This Week') {
         noContentText.style.color = 'blue';
         console.log('This Week');
         console.log('blue');
@@ -169,22 +163,6 @@ let incrementNoteListener = ((title) => {
         }
 
         if (titleName === 'Inbox') {
-            let newNote = createNoteInput();
-            inboxNotesArr.push(newNote);
-
-            notesContainer.appendChild(newNote);
-            let noteInput = document.querySelector('.note-input');
-            noteInput.addEventListener('change', () => {
-                let noteText = noteInput.value;
-                let note = new Note('', '', noteText);
-                inboxNotesArr.pop();
-                notesContainer.removeChild(newNote);
-                newNote = note.createSimpleNote();
-                notesContainer.appendChild(newNote);
-            });
-
-
-
             // Add a new note to the array that will create a input note.
             // The user will input the note
             // if the user's input had no value delete the created input element.
@@ -192,11 +170,7 @@ let incrementNoteListener = ((title) => {
             // else if the user input a value then add the note to the correct tab storages
         }
         else if (titleName === 'Today') {
-            // Add a new note to the array that will create a input note.
-            // The user will input the note
-            // if the user's input had no value delete the created input element.
-                // if the current tab storage has no notes set no content-text-display to block
-            // else if the user input a value then add the note to the correct tab storages
+            
         }
         else if (titleName === 'This Week') {
 
@@ -206,25 +180,17 @@ let incrementNoteListener = ((title) => {
     });
 });
 
-// When the user clicks on the increment button - DONE
-// if the no content text display is block set to hidden - DONE
-// The current tabs page will populate with a input asking for the users note
-// The user will input the note
-// if the user's input had no value delete the created input element.
-    // if the current tab storage has no notes set no content-text-display to block
-// else if the user input a value then add the note to the correct tab storage
-
 let switchTabs = (() => {
     const pageTitle = document.querySelector('.title');
 
     if (pageTitle.innerHTML === 'Inbox') {
-        populateNotes();
+        populateNotes(pageTitle);
     }
     else if (pageTitle.innerHTML === 'Today') {
-        populateNotes();
+        populateNotes(pageTitle);
     }
     else if (pageTitle.innerHTML === 'This Week') {
-        populateNotes();
+        populateNotes(pageTitle);
     }
 });
 
