@@ -21,6 +21,10 @@ body {
     font-family: var(--font-1);
 }
 
+input {
+    box-sizing: border-box;
+}
+
 .black-overlay {
     position: fixed;
     width: 100vw;
@@ -233,4 +237,187 @@ body {
 
 .note-input:focus {
     outline: none;
+}
+
+/* Card styling */
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    height: 400px;
+    width: 750px;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.card-content-container {
+    height: 360px;
+    width: 90%;
+    background-color: none;
+}
+
+.card-title-container {
+    position: relative;
+    height: 50px;
+}
+
+.card-title-input {
+    height: 100%;
+    width: 100%;
+    font-size: 35px;
+    border: 0;
+    outline: none;
+    font-weight: bold;
+}
+
+.horizontal-line {
+    background-color: #C4C4C4;
+    width: 100%;
+    height: 2px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.card-content {
+    display: grid;
+    height: 220px;
+    grid-template-columns: 1fr 50px 1fr;
+    grid-template-rows: 60px 1fr 60px 1fr 60px;
+    grid-template-areas:
+        "d . date"
+        "d . ."
+        "d . priority"
+        "d . ."
+        "d . project";
+    background-color: none; /* Use yellow to debug */
+}
+
+.card-description-container {
+    grid-area: d;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#description-input {
+    resize: none;
+    height: 100%;
+}
+
+.card-date-container {
+    grid-area: date;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-priority-container {
+    grid-area: priority;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-project-container {
+    grid-area: project;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-input {
+    width: 100%;
+    height: 30px;
+}
+
+.input-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.input-styling {
+    border: 2px solid #C4C4C4;
+    outline: none;
+}
+
+.submission-btns-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 80px;
+    background-color: none; /* Use green to debug */
+    gap: 20px;
+}
+
+.submit-btn {
+    height: 35px;
+    width: 90px;
+    background-color: #0083FF;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer
+}
+
+.reset-btn {
+    height: 35px;
+    width: 90px;
+    border: 2px solid #9B9B9B;
+    border-radius: 5px;
+    color: #9B9B9B;
+    transition: .2s background-color, .2s color;
+    cursor: pointer;
+}
+
+.reset-btn:hover {
+    background-color: #9B9B9B;
+    color: white;
+}
+
+.reset-btn:active {
+    background-color: white;
+}
+
+/* Close Button */
+
+/* Adjust width or height of x using the width or height properties in
+.close:before,
+.close:after {...} 
+
+Adjust background-color in .close{...}
+*/
+
+.close {
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    display: block;
+    width: 30px;
+    height: 30px;
+    font-size: 0;
+    transition: .2s opacity;
+}
+.close:before, 
+.close:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background-color: #9B9B9B;
+    transform: rotate(45deg) translate(-50%, -50%);
+    transform-origin: top left;
+    content: '';
+}
+.close:after {
+    transform: rotate(-45deg) translate(-50%, -50%);
+}
+
+.close:hover {
+    opacity: .5;
+}
+
+.close:active {
+    opacity: 0;
 }
