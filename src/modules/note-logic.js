@@ -350,6 +350,40 @@ function populateNotes(title) {
     }
 }
 
+function createNoteObject(descriptionValue, dateValue, priorityValue, projectValue) {
+    
+    let note = (descriptionValue, dateValue, priorityValue, projectValue) => {
+        let description = descriptionValue;
+        let getDescription = () => description;
+        let setDescription = (newDescription) => description = newDescription;
+
+        let date = dateValue;
+        let getDate = () => date;
+        let setDate = (newDate) => date = newDate;
+        
+        let priority = priorityValue;
+        let getPriority = () => priority;
+        let setPriority = (newPriority) => priority = newPriority;
+
+        let project = projectValue;
+        let getProject = () => project;
+        let setProject = (newProject) => project = newProject;
+    };
+
+    return note;
+}
+
+function createNote() {
+    let descripValue = document.getElementById('.description-input').value;
+    let dateValue = document.getElementById('.date-input').value;
+    let priorityValue = document.getElementById('.priority-input').value;
+    let projectValue = document.getElementById('project-input').value;
+
+    let newNote = createNoteObject(descripValue, dateValue, priorityValue, projectValue)
+
+    return newNote;
+}
+
 let incrementNoteListener = (() => {
     let body = document.querySelector('body');
     let title = document.querySelector('.title');
@@ -362,6 +396,7 @@ let incrementNoteListener = (() => {
         let card = createCard();
         blackOverlay.appendChild(card);
 
+        // When the card is submitted store the note in the intended tab array.
         body.appendChild(blackOverlay);
     });
 });
