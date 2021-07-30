@@ -357,10 +357,6 @@ let incrementNoteListener = (() => {
 
     let incrementBtn = document.querySelector('.increment-note-btn');
     incrementBtn.addEventListener('click', () => {
-        let noContentText = document.querySelector('.no-content-text');
-        if (window.getComputedStyle(noContentText).display === 'block') {
-            removeNoContentText(noContentText);
-        }
 
         let blackOverlay = createBlackOverlay();
         let card = createCard();
