@@ -29,7 +29,7 @@ input {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .7);
     top: 0;
     left: 0;
     right: 0;
@@ -243,6 +243,7 @@ input {
 
 .card {
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
     background-color: white;
@@ -250,6 +251,9 @@ input {
     width: 750px;
     border-radius: 50px;
     overflow: hidden;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .card-content-container {

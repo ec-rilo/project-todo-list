@@ -2,6 +2,9 @@ import './styles/reset.css';
 import './styles/main.css';
 import {tabPagePopulation} from './modules/tab-logic.js';
 import {defaultTabLoad} from './modules/tab-logic.js';
+import {incrementNoteListener} from './modules/note-logic.js';
+
+incrementNoteListener();
 
 let inboxNotesArr = [];
 localStorage.setItem('inboxNotesArr', JSON.stringify(inboxNotesArr));

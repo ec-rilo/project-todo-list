@@ -265,14 +265,11 @@ function createNoteInput() {
     return noteContainer;
 }
 
-function addBlackOverlay() {
-    let body = document.querySelector('body');
-
+function createBlackOverlay() {
     let blackOverlay = document.createElement('div');
     blackOverlay.classList.add('black-overlay');
 
-    console.log(blackOverlay);
-    body.appendChild(blackOverlay);
+    return blackOverlay;
 }
 
 function removeBlackOverlay() {
@@ -343,30 +340,24 @@ function populateNotes(title) {
     }
 }
 
-let incrementNoteListener = ((title) => {
+let incrementNoteListener = (() => {
+    let body = document.querySelector('body');
+    let title = document.querySelector('.title');
     let titleName = title.innerHTML;
-    const notesContainer = document.querySelector('.notes-container');
 
     let incrementBtn = document.querySelector('.increment-note-btn');
     incrementBtn.addEventListener('click', () => {
-
         let noContentText = document.querySelector('.no-content-text');
         if (window.getComputedStyle(noContentText).display === 'block') {
             removeNoContentText(noContentText);
         }
 
-        if (titleName === 'Inbox') {
-            addBlackOverlay();
-        }
-        else if (titleName === 'Today') {
-            addBlackOverlay();
-        }
-        else if (titleName === 'This Week') {
-            addBlackOverlay();
-        }
-        
+        let blackOverlay = createBlackOverlay();
+        let card = createCard();
+        blackOverlay.appendChild(card);
 
-    });
+        body.appendChild(blackOverlay);
+    }), {once: true};
 });
 
 let switchTabs = (() => {
