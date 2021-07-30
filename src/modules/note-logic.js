@@ -384,6 +384,14 @@ function createNote() {
     return newNote;
 }
 
+function openCard() {
+    let blackOverlay = createBlackOverlay();
+    let card = createCard();
+    blackOverlay.appendChild(card);
+
+    body.appendChild(blackOverlay);
+}
+
 let incrementNoteListener = (() => {
     let body = document.querySelector('body');
     let title = document.querySelector('.title');
@@ -391,13 +399,9 @@ let incrementNoteListener = (() => {
 
     let incrementBtn = document.querySelector('.increment-note-btn');
     incrementBtn.addEventListener('click', () => {
-
-        let blackOverlay = createBlackOverlay();
-        let card = createCard();
-        blackOverlay.appendChild(card);
+        openCard();
 
         // When the card is submitted store the note in the intended tab array.
-        body.appendChild(blackOverlay);
     });
 });
 
