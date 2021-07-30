@@ -363,7 +363,7 @@ let incrementNoteListener = (() => {
         blackOverlay.appendChild(card);
 
         body.appendChild(blackOverlay);
-    }), {once: true};
+    });
 });
 
 let switchTabs = (() => {
