@@ -55,6 +55,13 @@ class Tab {
 
 /* DOM creation functions */
 
+function closeCard() {
+    let blackOverlay = document.querySelector('.black-overlay');
+    let body = document.querySelector('body');
+
+    body.removeChild(blackOverlay);
+}
+
 function createCard() {
     let card = document.createElement('form');
     card.classList.add('card');
@@ -85,6 +92,9 @@ function createCard() {
     closeBtn.setAttribute('tabindex', '0');
     closeBtn.setAttribute('role', 'button');
     closeBtn.innerHTML = 'close';
+    closeBtn.addEventListener('click', () => {
+        closeCard();
+    });
     cardTitleContainer.appendChild(closeBtn);
 
     let horizontalLine = document.createElement('div');
