@@ -1,7 +1,4 @@
 import { sub } from 'date-fns';
-import {inboxNotesArr} from '../index.js';
-import {todayNotesArr} from '../index.js';
-import {thisWeekNotesArr} from '../index.js';
 
 'use strict'
 
@@ -352,34 +349,47 @@ function populateNotes(title) {
 
 function createNoteObject(descriptionValue, dateValue, priorityValue, projectValue) {
     
-    let note = (descriptionValue, dateValue, priorityValue, projectValue) => {
+    let Note = (descriptionValue, dateValue, priorityValue, projectValue) => {
         let description = descriptionValue;
         let getDescription = () => description;
-        let setDescription = (newDescription) => description = newDescription;
+        let setDescription = (newDescription) => {description = newDescription};
 
         let date = dateValue;
         let getDate = () => date;
-        let setDate = (newDate) => date = newDate;
+        let setDate = (newDate) => {date = newDate};
         
         let priority = priorityValue;
         let getPriority = () => priority;
-        let setPriority = (newPriority) => priority = newPriority;
+        let setPriority = (newPriority) => {priority = newPriority};
 
         let project = projectValue;
         let getProject = () => project;
-        let setProject = (newProject) => project = newProject;
+        let setProject = (newProject) => {project = newProject};
+
+        return {
+            getDescription,
+            setDescription,
+            getDate,
+            setDate,
+            getPriority,
+            setPriority,
+            getProject,
+            setProject
+        }
     };
 
-    return note;
+    let noteObject = Note(descriptionValue, dateValue, priorityValue, projectValue);
+
+    return noteObject;
 }
 
 function createNote() {
-    let descripValue = document.getElementById('.description-input').value;
-    let dateValue = document.getElementById('.date-input').value;
-    let priorityValue = document.getElementById('.priority-input').value;
+    let descripValue = document.getElementById('description-input').value;
+    let dateValue = document.getElementById('date-input').value;
+    let priorityValue = document.getElementById('priority-input').value;
     let projectValue = document.getElementById('project-input').value;
 
-    let newNote = createNoteObject(descripValue, dateValue, priorityValue, projectValue)
+    let newNote = createNoteObject(descripValue, dateValue, priorityValue, projectValue);
 
     return newNote;
 }
@@ -394,6 +404,13 @@ function openCard() {
     body.appendChild(blackOverlay);
 }
 
+function handleForm(e) {e.preventDefault();}
+
+function getInboxStorage() {
+    // let storedInboxNotes = JSON.parse(localStorage.getItem('inboxNotes'));
+    let inboxNotesArr = JSON.parse(localStorage.getItem('inboxNotes'));
+}
+
 let incrementNoteListener = (() => {
     let body = document.querySelector('body');
     let title = document.querySelector('.title');
@@ -402,7 +419,30 @@ let incrementNoteListener = (() => {
     let incrementBtn = document.querySelector('.increment-note-btn');
     incrementBtn.addEventListener('click', () => {
         openCard();
+
+        let card = document.querySelector('.card');
+        card.addEventListener('submit', () => {
+            handleForm;
+
+            let note = createNote();
+
+            let projectTab = note.getProject();
+            if (projectTab === 'inbox') {
                 
+            }
+            // If the project value == inbox
+                // Store the note in the inbox array
+            // If the project does not equal inbox
+                // 
+
+            closeCard();
+
+            // When the card is submitted - DONE
+            // get the card values - DONE
+            // Store the values in an object as properties - DONE
+            // Get that object, name it note. - DONE
+            // Store note in the intended tab array.
+        });
         // When the card is submitted store the note in the intended tab array.
     });
 });
