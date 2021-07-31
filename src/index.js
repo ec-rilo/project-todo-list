@@ -25,8 +25,3 @@ function init() {
     tabPagePopulation();
 }
 
-export {
-    inboxNotesArr,
-    todayNotesArr,
-    thisWeekNotesArr
-}
