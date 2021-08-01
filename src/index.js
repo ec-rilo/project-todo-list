@@ -6,14 +6,17 @@ import {incrementNoteListener} from './modules/note-logic.js';
 
 incrementNoteListener();
 
-let inboxNotesArr = [];
-localStorage.setItem('inboxNotesArr', JSON.stringify(inboxNotesArr));
+if(!localStorage.getItem("inboxNotesArr")) {
+    localStorage.setItem( "inboxNotesArr", JSON.stringify([]) );
+}
 
-let todayNotesArr = [];
-localStorage.setItem('todayNotesArr', JSON.stringify(todayNotesArr));
+if(!localStorage.getItem("todayNotesArr")) {
+    localStorage.setItem( "todayNotesArr", JSON.stringify([]) );
+}
 
-let thisWeekNotesArr = [];
-localStorage.setItem('thisWeekNotesArr', JSON.stringify(thisWeekNotesArr));
+if(!localStorage.getItem("thisWeekNotesArr")) {
+    localStorage.setItem( "thisWeekNotesArr", JSON.stringify([]) );
+}
 
 // let storedInboxNotes = JSON.parse(localStorage.getItem('inboxNotes'));
 // The above is how to call the array set in local storage
