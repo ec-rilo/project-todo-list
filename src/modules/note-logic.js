@@ -307,80 +307,55 @@ function populateNotes(title) {
     const noContentText = document.querySelector('.no-content-text');
     
     if (title.innerHTML === 'Inbox') {
-        if (inboxNotesArr.length === 0) {
-            if (window.getComputedStyle(noContentText).display === 'none') {
-                addNoContentText(noContentText);
-                return;
-            }
-            else {
-                loadNotes(title, inboxNotesArr);
-            }
-        }
+        // if (inboxNotesArr.length === 0) {
+        //     if (window.getComputedStyle(noContentText).display === 'none') {
+        //         addNoContentText(noContentText);
+        //         return;
+        //     }
+        //     else {
+        //         loadNotes(title, inboxNotesArr);
+        //     }
+        // }
 
         noContentText.style.color = 'red';
     }
     else if (title.innerHTML === 'Today') {
-        if (todayNotesArr.length === 0) {
-            if (window.getComputedStyle(noContentText).display === 'none') {
-                addNoContentText(noContentText);
-                return;
-            }
-            else {
-                loadNotes(title, todayNotesArr);
-            }
-        }
+        // if (todayNotesArr.length === 0) {
+        //     if (window.getComputedStyle(noContentText).display === 'none') {
+        //         addNoContentText(noContentText);
+        //         return;
+        //     }
+        //     else {
+        //         loadNotes(title, todayNotesArr);
+        //     }
+        // }
 
         noContentText.style.color = 'green';
     }
     else if (title.innerHTML === 'This Week') {
-        if (thisWeekNotesArr.length === 0) {
-            if (window.getComputedStyle(noContentText).display === 'none') {
-                addNoContentText(noContentText);
-                return;
-            }
-            else {
-                loadNotes(title, thisWeekNotesArr);
-            }
-        }
+        // if (thisWeekNotesArr.length === 0) {
+        //     if (window.getComputedStyle(noContentText).display === 'none') {
+        //         addNoContentText(noContentText);
+        //         return;
+        //     }
+        //     else {
+        //         loadNotes(title, thisWeekNotesArr);
+        //     }
+        // }
 
         noContentText.style.color = 'blue';
     }
 }
 
 function createNoteObject(descriptionValue, dateValue, priorityValue, projectValue) {
-    
-    let Note = (descriptionValue, dateValue, priorityValue, projectValue) => {
-        let description = descriptionValue;
-        let getDescription = () => description;
-        let setDescription = (newDescription) => {description = newDescription};
+    let note = {
+        description: descriptionValue,
+        date: dateValue,
+        priority: priorityValue,
+        project: projectValue,
+    }
 
-        let date = dateValue;
-        let getDate = () => date;
-        let setDate = (newDate) => {date = newDate};
-        
-        let priority = priorityValue;
-        let getPriority = () => priority;
-        let setPriority = (newPriority) => {priority = newPriority};
-
-        let project = projectValue;
-        let getProject = () => project;
-        let setProject = (newProject) => {project = newProject};
-
-        return {
-            getDescription,
-            setDescription,
-            getDate,
-            setDate,
-            getPriority,
-            setPriority,
-            getProject,
-            setProject
-        }
-    };
-
-    let noteObject = Note(descriptionValue, dateValue, priorityValue, projectValue);
-
-    return noteObject;
+    return note;
 }
 
 function createNote() {
@@ -407,8 +382,8 @@ function openCard() {
 function handleForm(e) {e.preventDefault();}
 
 function getInboxStorage() {
-    // let storedInboxNotes = JSON.parse(localStorage.getItem('inboxNotes'));
-    let inboxNotesArr = JSON.parse(localStorage.getItem('inboxNotes'));
+    let inboxNotesArr = JSON.parse(localStorage.getItem('inboxNotesArr'));
+    return inboxNotesArr;
 }
 
 let incrementNoteListener = (() => {
@@ -426,24 +401,16 @@ let incrementNoteListener = (() => {
 
             let note = createNote();
 
-            let projectTab = note.getProject();
+            let projectTab = note.project
             if (projectTab === 'inbox') {
+                let inboxStorage = getInboxStorage();
                 
+                inboxStorage.push(note);
+                localStorage.setItem('inboxNotesArr', JSON.stringify(inboxStorage));
             }
-            // If the project value == inbox
-                // Store the note in the inbox array
-            // If the project does not equal inbox
-                // 
-
+            
             closeCard();
-
-            // When the card is submitted - DONE
-            // get the card values - DONE
-            // Store the values in an object as properties - DONE
-            // Get that object, name it note. - DONE
-            // Store note in the intended tab array.
         });
-        // When the card is submitted store the note in the intended tab array.
     });
 });
 
