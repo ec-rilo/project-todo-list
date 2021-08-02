@@ -1,8 +1,8 @@
 import './styles/reset.css';
 import './styles/main.css';
-import {tabPagePopulation} from './modules/tab-logic.js';
-import {defaultTabLoad} from './modules/tab-logic.js';
-import {incrementNoteListener} from './modules/note-logic.js';
+import {tabPagePopulation} from './modules/application-logic.js';
+import {defaultTabLoad} from './modules/application-logic.js';
+import {incrementNoteListener} from './modules/application-logic.js';
 
 incrementNoteListener();
 
