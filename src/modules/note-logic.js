@@ -347,8 +347,9 @@ function populateNotes(title) {
     }
 }
 
-function createNoteObject(descriptionValue, dateValue, priorityValue, projectValue) {
+function createNoteObject(titleValue, descriptionValue, dateValue, priorityValue, projectValue) {
     let note = {
+        title: titleValue,
         description: descriptionValue,
         date: dateValue,
         priority: priorityValue,
@@ -359,12 +360,13 @@ function createNoteObject(descriptionValue, dateValue, priorityValue, projectVal
 }
 
 function createNote() {
+    let titleValue = document.getElementById('title-input').value;
     let descripValue = document.getElementById('description-input').value;
     let dateValue = document.getElementById('date-input').value;
     let priorityValue = document.getElementById('priority-input').value;
     let projectValue = document.getElementById('project-input').value;
 
-    let newNote = createNoteObject(descripValue, dateValue, priorityValue, projectValue);
+    let newNote = createNoteObject(titleValue, descripValue, dateValue, priorityValue, projectValue);
 
     return newNote;
 }
