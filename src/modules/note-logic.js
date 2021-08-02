@@ -388,6 +388,15 @@ function getInboxStorage() {
     return inboxNotesArr;
 }
 
+function storeNote(tabName, note) {
+    if (tabName === 'inbox') {
+        let inboxStorage = getInboxStorage();
+        
+        inboxStorage.push(note);
+        localStorage.setItem('inboxNotesArr', JSON.stringify(inboxStorage));
+    }
+}
+
 let incrementNoteListener = (() => {
     let body = document.querySelector('body');
     let title = document.querySelector('.title');
@@ -404,12 +413,7 @@ let incrementNoteListener = (() => {
             let note = createNote();
 
             let projectTab = note.project
-            if (projectTab === 'inbox') {
-                let inboxStorage = getInboxStorage();
-                
-                inboxStorage.push(note);
-                localStorage.setItem('inboxNotesArr', JSON.stringify(inboxStorage));
-            }
+            storeNote(projectTab, note);
             
             closeCard();
         });
