@@ -157,6 +157,33 @@ function createCard() {
     return card;
 }
 
+let noteFactory = (noteNum, notePriority, titleText) => {
+    // Creates the dom elements that create a note.
+    function createNoteElem() {
+        let note = document.createElement('div');
+        note.classList.add('note');
+        note.setAttribute('id', `note-${noteNum}`);
+
+        let checkboxContainer = document.createElement('div');
+        checkboxContainer.classList.add('checkbox-container', `${notePriority}`);
+        note.appendChild(checkboxContainer);
+
+        let checkbox = document.createElement('input');
+        checkbox.setAttribute('id', `cb${noteNum}`);
+        checkbox.classList.add('checkbox');
+        checkbox.setAttribute('type', 'checkbox');
+        checkboxContainer.appendChild(checkbox);
+
+        let checkboxLabel = document.createElement('label');
+        checkboxLabel.setAttribute('for', `cb${noteNum}`);
+        checkboxContainer.appendChild(checkboxLabel);
+
+        let noteTitle = document.createElement('p');
+        noteTitle.innerHTML = titleText;
+        note.appendChild(noteTitle);
+    }
+};
+
 function createBlackOverlay() {
     let blackOverlay = document.createElement('div');
     blackOverlay.classList.add('black-overlay');
