@@ -1,7 +1,6 @@
 import './styles/reset.css';
 import './styles/main.css';
 import {tabPagePopulation} from './modules/application-logic.js';
-import {defaultTabLoad} from './modules/application-logic.js';
 import {incrementNoteListener} from './modules/application-logic.js';
 
 incrementNoteListener();
@@ -24,6 +23,5 @@ if(!localStorage.getItem("thisWeekNotesArr")) {
 init();
 
 function init() {
-    defaultTabLoad();
     tabPagePopulation();
 }
