@@ -80,43 +80,11 @@ function populateNotes(title) {
     const noContentText = document.querySelector('.no-content-text');
     
     if (title.innerHTML === 'Inbox') {
-        // if (inboxNotesArr.length === 0) {
-        //     if (window.getComputedStyle(noContentText).display === 'none') {
-        //         addNoContentText(noContentText);
-        //         return;
-        //     }
-        //     else {
-        //         loadNotes(title, inboxNotesArr);
-        //     }
-        // }
+        let inboxStorage = getInboxStorage();
 
-        noContentText.style.color = 'red';
-    }
-    else if (title.innerHTML === 'Today') {
-        // if (todayNotesArr.length === 0) {
-        //     if (window.getComputedStyle(noContentText).display === 'none') {
-        //         addNoContentText(noContentText);
-        //         return;
-        //     }
-        //     else {
-        //         loadNotes(title, todayNotesArr);
-        //     }
-        // }
-
-        noContentText.style.color = 'green';
-    }
-    else if (title.innerHTML === 'This Week') {
-        // if (thisWeekNotesArr.length === 0) {
-        //     if (window.getComputedStyle(noContentText).display === 'none') {
-        //         addNoContentText(noContentText);
-        //         return;
-        //     }
-        //     else {
-        //         loadNotes(title, thisWeekNotesArr);
-        //     }
-        // }
-
-        noContentText.style.color = 'blue';
+        inboxStorage.forEach(note => {
+            // Create a note and append it to the notes container
+        });
     }
 }
 
@@ -154,7 +122,7 @@ function openCard() {
     body.appendChild(blackOverlay);
 }
 
-function handleForm(e) {e.preventDefault();}
+function handleForm(e) {e.preventDefault();} // prevents form from reloading page.
 
 function getInboxStorage() {
     let inboxNotesArr = JSON.parse(localStorage.getItem('inboxNotesArr'));
@@ -187,8 +155,14 @@ let incrementNoteListener = (() => {
 
             let projectTab = note.project
             storeNote(projectTab, note);
+
             
-            closeCard();
+            let currTab = document.querySelector('.title');
+            if (projectTab === currTab) {
+                populateNotes(projectTab);
+            }
+
+            closeCard(note);
         });
     });
 });
@@ -238,12 +212,7 @@ const tabPagePopulation = (() => {
 
 });
 
-function defaultTabLoad() {
-    switchTabs();
-}
-
 export {
     incrementNoteListener,
     tabPagePopulation,
-    defaultTabLoad,
 }
