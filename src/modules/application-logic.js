@@ -1,9 +1,6 @@
 import { sub } from 'date-fns';
 import { closeCard } from './dom-creation.js';
 import { createCard } from './dom-creation.js';
-import { createSimpleNote } from './dom-creation.js';
-import { createComplexNote } from './dom-creation.js';
-import { createNoteInput } from './dom-creation.js';
 import { createBlackOverlay } from './dom-creation.js';
 import { removeBlackOverlay } from './dom-creation.js';
 
@@ -83,7 +80,8 @@ function populateNotes(title) {
         let inboxStorage = getInboxStorage();
 
         inboxStorage.forEach(note => {
-            // Create a note and append it to the notes container
+            // Create a note 
+            // append note to the notes container
         });
     }
 }

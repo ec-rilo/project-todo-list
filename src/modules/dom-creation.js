@@ -157,68 +157,32 @@ function createCard() {
     return card;
 }
 
-function createSimpleNote() {
-    let noteContainer = document.createElement('div');
-    noteContainer.classList.add('note-container');
-    
-    const checkBubble = document.createElement('div');
-    checkBubble.classList.add('check-bubble');
-    noteContainer.appendChild(checkBubble);
-        
-    let bodyText = document.createElement('p');
-    bodyText.classList.add('note-text');
-    bodyText.innerHTML = `${this._text}`;
-    noteContainer.appendChild(bodyText);
+let noteFactory = (noteNum, notePriority, titleText) => {
+    // Creates the dom elements that create a note.
+    function createNoteElem() {
+        let note = document.createElement('div');
+        note.classList.add('note');
+        note.setAttribute('id', `note-${noteNum}`);
 
-    return noteContainer;
-}
+        let checkboxContainer = document.createElement('div');
+        checkboxContainer.classList.add('checkbox-container', `${notePriority}`);
+        note.appendChild(checkboxContainer);
 
-function createComplexNote() {
-    let noteContainer = document.createElement('div');
-    noteContainer.classList.add('note-container');
-    
-    const checkBubble = document.createElement('div');
-    checkBubble.classList.add('check-bubble');
-    noteContainer.appendChild(checkBubble);
-    
-    let noteTime = document.createElement('p');
-    noteTime.classList.add('note-text', 'note-time');
-    noteTime.innerHTML = `${this.time}`;
-    noteContainer.appendChild(noteTime);
+        let checkbox = document.createElement('input');
+        checkbox.setAttribute('id', `cb${noteNum}`);
+        checkbox.classList.add('checkbox');
+        checkbox.setAttribute('type', 'checkbox');
+        checkboxContainer.appendChild(checkbox);
 
-    let separator = document.createElement('p');
-    separator.classList.add('separator')
-    separator.innerHTML = ' - ';
-    noteContainer.appendChild(separator);
+        let checkboxLabel = document.createElement('label');
+        checkboxLabel.setAttribute('for', `cb${noteNum}`);
+        checkboxContainer.appendChild(checkboxLabel);
 
-    let noteTitle = document.createElement('p');
-    noteTitle.classList.add('note-text');
-    noteTitle.innerHTML = `${this.title}`;
-    noteContainer.appendChild(noteTitle);
-
-    return noteContainer;
-}
-
-function createNoteInput() {
-    let noteContainer = document.createElement('div');
-    noteContainer.classList.add('note-container');
-
-    let bubble = document.createElement('div');
-    bubble.classList.add('check-bubble');
-    noteContainer.appendChild(bubble);
-
-    let noteInputContainer = document.createElement('div');
-    noteInputContainer.classList.add('note-input-container');
-    noteContainer.appendChild(noteInputContainer);
-
-    let noteInput = document.createElement('input');
-    noteInput.classList.add('note-input');
-    noteInput.setAttribute('type', 'text');
-    noteInput.setAttribute('placeholder', 'Add a task');
-    noteInputContainer.appendChild(noteInput);
-
-    return noteContainer;
-}
+        let noteTitle = document.createElement('p');
+        noteTitle.innerHTML = titleText;
+        note.appendChild(noteTitle);
+    }
+};
 
 function createBlackOverlay() {
     let blackOverlay = document.createElement('div');
@@ -235,9 +199,6 @@ function removeBlackOverlay() {
 export {
     closeCard,
     createCard,
-    createSimpleNote,
-    createComplexNote,
-    createNoteInput,
     createBlackOverlay,
     removeBlackOverlay
 }

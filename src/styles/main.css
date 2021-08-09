@@ -16,6 +16,17 @@
     --color-6: rgba(255, 255, 255, .3);
     --font-1: 'Roboto';
     --least-priority-color: #E9ECEF;
+
+    /* Notes variables */
+    box-sizing: border-box;
+    --high-pri-border: #F20000;
+    --high-pri-background: rgba(242, 0, 0, .1);
+    --moderate-pri-border: #FFE600;
+    --moderate-pri-background: rgba(255, 230, 0, .1);
+    --low-pri-border: #0083FF;
+    --low-pri-background: rgba(0, 131, 255, .1);
+    --comp-pri-border: #C4C4C4;
+    --comp-pri-background: rgba(196, 196, 196, .2);
 }
 
 body {
@@ -205,24 +216,6 @@ input {
     transform: translate(-50%, -50%);    
 }
 
-/* Note Input creation */
-
-.note-input-container {
-    height: 30px;
-    width: 100%;
-}
-
-.note-input {
-    border: none;
-    height: 100%;
-    width: 100%;
-    font-size: 15px;
-}
-
-.note-input:focus {
-    outline: none;
-}
-
 /* Card styling */
 
 .card {
@@ -408,4 +401,100 @@ Adjust background-color in .close{...}
 
 .close:active {
     opacity: 0;
+}
+
+/*Single Note Styling */
+
+.note {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: 50px;
+    grid-template-columns: 40px 2fr 1fr 35px 35px;
+    grid-template-areas:
+    "checkbox title . edit-btn delete-btn";
+    align-items: center;
+    border-bottom: 1px solid #C4C4C4;
+}
+
+/* Default Checkbox start */
+
+.checkbox-container {
+    grid-area: checkbox;
+}
+
+.checkbox-container label {
+    display: flex;
+}
+
+.checkbox-container input[type='checkbox'] {
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+}
+
+.checkbox-container label::before {
+    content: '';
+    width: 1.3em;
+    height: 1.3em;
+    border: .1em solid #C4C4C4;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.checkbox-container input[type='checkbox']:checked + label::before {
+    
+    content: url('../images/check-mark-small.svg');
+    
+}
+
+.low-pri-cb-container label::before {
+    border: .1em solid var(--low-pri-border);
+    background: var(--low-pri-background);
+}
+
+.moderate-pri-cb-container label::before {
+    border: .1em solid var(--moderate-pri-border);
+    background: var(--moderate-pri-background);
+}
+
+.high-pri-cb-container label::before {
+    border: .1em solid var(--high-pri-border);
+    background: var(--high-pri-background);
+}
+
+.comp-pri-cb-container label::before {
+    border: .1em solid var(--comp-pri-border);
+    background: var(--comp-pri-background);
+}
+
+/* Default Checkbox end */
+
+
+.note-title {
+    grid-area: title;
+}
+
+.edit-btn-container {
+    grid-area: edit-btn;
+    justify-self: right;
+    
+}
+
+.edit-btn-img {
+    width: 20px;
+    height: 20px;
+    filter: invert(73%) sepia(14%) saturate(0%) hue-rotate(246deg) brightness(84%) contrast(96%);
+    cursor: pointer;
+}
+
+.delete-btn-container {
+    grid-area: delete-btn;
+    justify-self: right;
+}
+
+.delete-btn-img {
+    width: 20px;
+    height: 20px;
+    filter: invert(73%) sepia(14%) saturate(0%) hue-rotate(246deg) brightness(84%) contrast(96%);
+    cursor: pointer;
 }
