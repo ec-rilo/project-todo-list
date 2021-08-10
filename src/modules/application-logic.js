@@ -3,6 +3,7 @@ import { closeCard } from './dom-creation.js';
 import { createCard } from './dom-creation.js';
 import { createBlackOverlay } from './dom-creation.js';
 import { removeBlackOverlay } from './dom-creation.js';
+import { noteFactory } from './dom-creation.js';
 
 'use strict'
 
@@ -73,6 +74,11 @@ function loadNotes(tabName, tabStorageArr) {
     }   
 }
 
+function removeNotes() {
+    // Select the notes container
+    // remove each item within the notes container.
+}
+
 function populateNotes(title) {
     const noContentText = document.querySelector('.no-content-text');
     
@@ -80,7 +86,20 @@ function populateNotes(title) {
         let inboxStorage = getInboxStorage();
 
         inboxStorage.forEach(note => {
-            // Create a note 
+            let noteIndexFromArr = inboxStorage.indexOf(note);
+            let notePri = note.priority;
+            let noteTitle = note.title;
+
+            let currNote = noteFactory(noteIndexFromArr, notePri, noteTitle);
+
+            let notesContainer = document.querySelector('.notes-container');
+            notesContainer.appendChild(currNote);
+            // Create a note
+            // Get the notes numerical place in the array and store it in a variable
+            // get the notes priority level in a the array and store it in a variable
+            // get the notes title from the array and store it in a variable
+            // create a variable called currNote and make it a note
+                // Make it a note by using noteFactory(noteNum, notePriority, titleText);
             // append note to the notes container
         });
     }
