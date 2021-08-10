@@ -158,14 +158,14 @@ function createCard() {
 }
 
 let noteFactory = (noteNum, notePriority, titleText) => {
-    // Creates the dom elements that create a note.
+    
     function createNoteElem() {
         let note = document.createElement('div');
         note.classList.add('note');
         note.setAttribute('id', `note-${noteNum}`);
 
         let checkboxContainer = document.createElement('div');
-        checkboxContainer.classList.add('checkbox-container', `${notePriority}`);
+        checkboxContainer.classList.add('checkbox-container', `${notePriority}-pri-cb-container`);
         note.appendChild(checkboxContainer);
 
         let checkbox = document.createElement('input');
@@ -181,7 +181,33 @@ let noteFactory = (noteNum, notePriority, titleText) => {
         let noteTitle = document.createElement('p');
         noteTitle.innerHTML = titleText;
         note.appendChild(noteTitle);
+
+        let editBtnContainer = document.createElement('div');
+        editBtnContainer.classList.add('edit-btn-container');
+        note.appendChild(editBtnContainer);
+
+        let editBtnImg = document.createElement('img');
+        editBtnImg.setAttribute('src', '../src/images/pencil-icon.svg');
+        editBtnImg.setAttribute('alt', 'Edit note Button');
+        editBtnImg.classList.add('edit-btn-img');
+        editBtnContainer.appendChild(editBtnImg);
+
+        let deleteBtnContainer = document.createElement('div');
+        deleteBtnContainer.classList.add('delete-btn-container');
+        note.appendChild(deleteBtnContainer);
+
+        let deleteBtnImg = document.createElement('img');
+        deleteBtnImg.classList.add('delete-btn-img');
+        deleteBtnImg.setAttribute('src', '../src/images/trash-can-icon.svg');
+        deleteBtnImg.setAttribute('alt', 'Trash note button.');
+        deleteBtnContainer.appendChild(deleteBtnImg);
+
+        return note;
     }
+
+    let note = createNoteElem();
+
+    return note;
 };
 
 function createBlackOverlay() {
@@ -200,5 +226,6 @@ export {
     closeCard,
     createCard,
     createBlackOverlay,
-    removeBlackOverlay
+    removeBlackOverlay,
+    noteFactory,
 }
