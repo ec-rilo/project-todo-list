@@ -1,3 +1,6 @@
+import  trashCanIconSrc  from '../images/trash-can-icon.svg';
+import  pencilIconSrc  from '../images/pencil-icon.svg';
+
 'use strict';
 
 function closeCard() {
@@ -187,7 +190,7 @@ let noteFactory = (noteNum, notePriority, titleText) => {
         note.appendChild(editBtnContainer);
 
         let editBtnImg = document.createElement('img');
-        editBtnImg.setAttribute('src', '../src/images/pencil-icon.svg');
+        editBtnImg.setAttribute('src', pencilIconSrc);
         editBtnImg.setAttribute('alt', 'Edit note Button');
         editBtnImg.classList.add('edit-btn-img');
         editBtnContainer.appendChild(editBtnImg);
@@ -198,7 +201,7 @@ let noteFactory = (noteNum, notePriority, titleText) => {
 
         let deleteBtnImg = document.createElement('img');
         deleteBtnImg.classList.add('delete-btn-img');
-        deleteBtnImg.setAttribute('src', '../src/images/trash-can-icon.svg');
+        deleteBtnImg.setAttribute('src', trashCanIconSrc);
         deleteBtnImg.setAttribute('alt', 'Trash note button.');
         deleteBtnContainer.appendChild(deleteBtnImg);
 
