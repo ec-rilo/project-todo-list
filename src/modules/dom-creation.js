@@ -165,7 +165,7 @@ let noteFactory = (noteNum, notePriority, titleText) => {
         note.setAttribute('id', `note-${noteNum}`);
 
         let checkboxContainer = document.createElement('div');
-        checkboxContainer.classList.add('checkbox-container', `${notePriority}`);
+        checkboxContainer.classList.add('checkbox-container', `${notePriority}-pri-cb-container`);
         note.appendChild(checkboxContainer);
 
         let checkbox = document.createElement('input');
@@ -197,6 +197,7 @@ let noteFactory = (noteNum, notePriority, titleText) => {
         note.appendChild(deleteBtnContainer);
 
         let deleteBtnImg = document.createElement('img');
+        deleteBtnImg.classList.add('delete-btn-img');
         deleteBtnImg.setAttribute('src', '../src/images/trash-can-icon.svg');
         deleteBtnImg.setAttribute('alt', 'Trash note button.');
         deleteBtnContainer.appendChild(deleteBtnImg);
