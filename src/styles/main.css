@@ -452,7 +452,7 @@ Adjust background-color in .close{...}
     background: var(--low-pri-background);
 }
 
-.moderate-pri-cb-container label::before {
+.medium-pri-cb-container label::before {
     border: .1em solid var(--moderate-pri-border);
     background: var(--moderate-pri-background);
 }
