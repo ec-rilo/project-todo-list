@@ -188,6 +188,16 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
     function editNote() {
 
     }
+
+    function updateNoteCb(noteObj) {
+        let inboxStorage = getInboxStorage();
+        let noteObjIndex = inboxStorage.findIndex( (object) => {
+            return object.title === noteObj.title;
+        });
+        inboxStorage.splice(noteObjIndex, 1);
+        inboxStorage.splice(noteObjIndex, 0, noteObj);
+        localStorage.setItem( "inboxNotesArr", JSON.stringify(inboxStorage) );
+    }
     
     function createNoteElem() {
         let note = document.createElement('div');
@@ -202,6 +212,26 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
         checkbox.setAttribute('id', `cb${noteNum}`);
         checkbox.classList.add('checkbox');
         checkbox.setAttribute('type', 'checkbox');
+        if (noteObj.checkMarked === true) {
+            note.style.opacity = '0.3';
+            checkbox.checked = true;
+        }
+
+        checkbox.addEventListener('click', () => {
+            if (checkbox.checked === false) {
+                note.style.opacity = '1';
+
+                noteObj.checkMarked = false;
+                updateNoteCb(noteObj);
+            }
+            else if (checkbox.checked || noteObj.checkMarked === true) {
+                note.style.opacity = '0.3';
+
+                noteObj.checkMarked = true;
+                updateNoteCb(noteObj);
+            }
+        });
+
         checkboxContainer.appendChild(checkbox);
 
         let checkboxLabel = document.createElement('label');
@@ -240,6 +270,8 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
 
         return note;
     }
+
+
 
     let note = createNoteElem();
 
