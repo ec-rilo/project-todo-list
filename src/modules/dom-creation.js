@@ -1,5 +1,6 @@
 import  trashCanIconSrc  from '../images/trash-can-icon.svg';
 import  pencilIconSrc  from '../images/pencil-icon.svg';
+import { getInboxStorage } from './application-logic.js';
 
 'use strict';
 
@@ -160,7 +161,23 @@ function createCard() {
     return card;
 }
 
-let noteFactory = (noteNum, notePriority, titleText) => {
+let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
+
+    function deleteNote(currNote, notePro, noteObj) {
+        currNote.remove();
+
+         
+        let inboxStorage = getInboxStorage();
+        let noteObjIndex = inboxStorage.findIndex( (object) => {
+            return object.title === noteObj.title;
+        });
+        inboxStorage.splice(noteObjIndex, 1);
+        localStorage.setItem( "inboxNotesArr", JSON.stringify(inboxStorage) );
+    }
+
+    function editNote() {
+
+    }
     
     function createNoteElem() {
         let note = document.createElement('div');
@@ -189,6 +206,10 @@ let noteFactory = (noteNum, notePriority, titleText) => {
         editBtnContainer.classList.add('edit-btn-container');
         note.appendChild(editBtnContainer);
 
+        editBtnContainer.addEventListener('click', () => {
+            
+        })
+
         let editBtnImg = document.createElement('img');
         editBtnImg.setAttribute('src', pencilIconSrc);
         editBtnImg.setAttribute('alt', 'Edit note Button');
@@ -198,6 +219,8 @@ let noteFactory = (noteNum, notePriority, titleText) => {
         let deleteBtnContainer = document.createElement('div');
         deleteBtnContainer.classList.add('delete-btn-container');
         note.appendChild(deleteBtnContainer);
+
+        deleteBtnContainer.addEventListener('click', () => deleteNote(note, noteProj, noteObj));
 
         let deleteBtnImg = document.createElement('img');
         deleteBtnImg.classList.add('delete-btn-img');
