@@ -94,8 +94,9 @@ function populateNotes(title) {
             let noteIndexFromArr = inboxStorage.indexOf(note);
             let notePri = note.priority;
             let noteTitle = note.title;
+            let noteProj = note.project;
 
-            let currNote = noteFactory(noteIndexFromArr, notePri, noteTitle);
+            let currNote = noteFactory(noteIndexFromArr, notePri, noteTitle, noteProj, note);
 
             let notesContainer = document.querySelector('.notes-container');
             notesContainer.appendChild(currNote);
@@ -225,4 +226,5 @@ const tabPagePopulation = (() => {
 export {
     incrementNoteListener,
     tabPagePopulation,
+    getInboxStorage,
 }
