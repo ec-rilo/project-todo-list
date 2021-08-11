@@ -270,11 +270,8 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
 
         return note;
     }
-
-
-
+    
     let note = createNoteElem();
-
     return note;
 };
 
