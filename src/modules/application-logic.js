@@ -74,13 +74,18 @@ function loadNotes(tabName, tabStorageArr) {
     }   
 }
 
-function removeNotes() {
+function removeCurrNotes() {
+    let notesContainer = document.querySelector('.notes-container');
+
+    while (notesContainer.firstChild) {
+        notesContainer.removeChild(notesContainer.lastChild);
+      }
     // Select the notes container
     // remove each item within the notes container.
 }
 
 function populateNotes(title) {
-    const noContentText = document.querySelector('.no-content-text');
+    removeCurrNotes();
     
     if (title.innerHTML === 'Inbox') {
         let inboxStorage = getInboxStorage();
@@ -94,13 +99,6 @@ function populateNotes(title) {
 
             let notesContainer = document.querySelector('.notes-container');
             notesContainer.appendChild(currNote);
-            // Create a note
-            // Get the notes numerical place in the array and store it in a variable
-            // get the notes priority level in a the array and store it in a variable
-            // get the notes title from the array and store it in a variable
-            // create a variable called currNote and make it a note
-                // Make it a note by using noteFactory(noteNum, notePriority, titleText);
-            // append note to the notes container
         });
     }
 }
@@ -173,13 +171,8 @@ let incrementNoteListener = (() => {
             let projectTab = note.project
             storeNote(projectTab, note);
 
-            
-            let currTab = document.querySelector('.title');
-            if (projectTab === currTab) {
-                populateNotes(projectTab);
-            }
-
             closeCard(note);
+            populateNotes(title);
         });
     });
 });
