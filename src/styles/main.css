@@ -134,7 +134,8 @@ input {
 }
 
 .tab {
-    margin: 25px;
+    padding: 15px;
+    margin: 10px;
 }
 
 .single-tab {
@@ -155,7 +156,26 @@ input {
 }
 
 .projects-tab {
+    grid-area: project-text;
     font-weight: normal;
+}
+
+.projects-tab-container {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+    'project-text arrow';
+    align-items: center;
+    cursor: pointer;
+}
+
+.arrow-img {
+    grid-area: arrow;
+    object-fit: contain;
+    justify-self: end;
+    width: 10px;
+    height: 10px;
 }
 
 /* Right content information */
