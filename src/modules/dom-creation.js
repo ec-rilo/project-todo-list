@@ -1,6 +1,7 @@
 import  trashCanIconSrc  from '../images/trash-can-icon.svg';
 import  pencilIconSrc  from '../images/pencil-icon.svg';
 import { getInboxStorage } from './application-logic.js';
+import { format } from 'date-fns';
 
 'use strict';
 
@@ -9,6 +10,13 @@ function closeCard() {
     let body = document.querySelector('body');
 
     body.removeChild(blackOverlay);
+}
+
+function getCurrentDate() {
+    let currDate = new Date();
+    let dateFormatted = format(currDate, 'yyyy-MM-dd');
+
+    return dateFormatted;
 }
 
 function createCard() {
@@ -86,6 +94,8 @@ function createCard() {
     dateInput.setAttribute('id', 'date-input');
     dateInput.setAttribute('type', 'date');
     dateInput.setAttribute('required', '');
+    let currDate = getCurrentDate();
+    dateInput.setAttribute('min', `${currDate}`);
     dateContainer.appendChild(dateInput);
 
     let priorityContainer = document.createElement('div');
@@ -178,6 +188,16 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
     function editNote() {
 
     }
+
+    function updateNoteCb(noteObj) {
+        let inboxStorage = getInboxStorage();
+        let noteObjIndex = inboxStorage.findIndex( (object) => {
+            return object.title === noteObj.title;
+        });
+        inboxStorage.splice(noteObjIndex, 1);
+        inboxStorage.splice(noteObjIndex, 0, noteObj);
+        localStorage.setItem( "inboxNotesArr", JSON.stringify(inboxStorage) );
+    }
     
     function createNoteElem() {
         let note = document.createElement('div');
@@ -192,6 +212,26 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
         checkbox.setAttribute('id', `cb${noteNum}`);
         checkbox.classList.add('checkbox');
         checkbox.setAttribute('type', 'checkbox');
+        if (noteObj.checkMarked === true) {
+            note.style.opacity = '0.3';
+            checkbox.checked = true;
+        }
+
+        checkbox.addEventListener('click', () => {
+            if (checkbox.checked === false) {
+                note.style.opacity = '1';
+
+                noteObj.checkMarked = false;
+                updateNoteCb(noteObj);
+            }
+            else if (checkbox.checked || noteObj.checkMarked === true) {
+                note.style.opacity = '0.3';
+
+                noteObj.checkMarked = true;
+                updateNoteCb(noteObj);
+            }
+        });
+
         checkboxContainer.appendChild(checkbox);
 
         let checkboxLabel = document.createElement('label');
@@ -207,8 +247,8 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
         note.appendChild(editBtnContainer);
 
         editBtnContainer.addEventListener('click', () => {
-            
-        })
+
+        });
 
         let editBtnImg = document.createElement('img');
         editBtnImg.setAttribute('src', pencilIconSrc);
@@ -230,6 +270,8 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
 
         return note;
     }
+
+
 
     let note = createNoteElem();
 

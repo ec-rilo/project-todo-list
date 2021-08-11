@@ -111,6 +111,7 @@ function createNoteObject(titleValue, descriptionValue, dateValue, priorityValue
         date: dateValue,
         priority: priorityValue,
         project: projectValue,
+        checkMarked: false,
     }
 
     return note;
