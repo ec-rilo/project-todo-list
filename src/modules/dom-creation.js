@@ -1,6 +1,7 @@
 import  trashCanIconSrc  from '../images/trash-can-icon.svg';
 import  pencilIconSrc  from '../images/pencil-icon.svg';
 import { getInboxStorage } from './application-logic.js';
+import { format } from 'date-fns';
 
 'use strict';
 
@@ -9,6 +10,13 @@ function closeCard() {
     let body = document.querySelector('body');
 
     body.removeChild(blackOverlay);
+}
+
+function getCurrentDate() {
+    let currDate = new Date();
+    let dateFormatted = format(currDate, 'yyyy-MM-dd');
+
+    return dateFormatted;
 }
 
 function createCard() {
@@ -86,6 +94,8 @@ function createCard() {
     dateInput.setAttribute('id', 'date-input');
     dateInput.setAttribute('type', 'date');
     dateInput.setAttribute('required', '');
+    let currDate = getCurrentDate();
+    dateInput.setAttribute('min', `${currDate}`);
     dateContainer.appendChild(dateInput);
 
     let priorityContainer = document.createElement('div');
@@ -207,8 +217,8 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
         note.appendChild(editBtnContainer);
 
         editBtnContainer.addEventListener('click', () => {
-            
-        })
+
+        });
 
         let editBtnImg = document.createElement('img');
         editBtnImg.setAttribute('src', pencilIconSrc);
