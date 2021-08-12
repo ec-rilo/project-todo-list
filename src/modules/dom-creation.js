@@ -3,6 +3,7 @@ import  pencilIconSrc  from '../images/pencil-icon.svg';
 import hamMenuImgSrc from '../images/menu-btn-icon-white.svg';
 import arrowImgSrc from '../images/angle-down-thin.svg';
 import { getInboxStorage } from './application-logic.js';
+import { populateNotes } from './application-logic.js';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
 
@@ -278,8 +279,10 @@ function createLandingPage() {
     notesContainer.classList.add('notes-container');
     infoContainer.appendChild(notesContainer);
 
-    // Potentially add code here for "No Content Text";
-    // As a p element with a "no-content-text" class.
+    let noContentText = document.createElement('p');
+    noContentText.classList.add('no-content-text');
+    noContentText.innerHTML = 'Got Notes?';
+    infoContainer.appendChild(noContentText);
 }
 
 let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
@@ -294,6 +297,9 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
         });
         inboxStorage.splice(noteObjIndex, 1);
         localStorage.setItem( "inboxNotesArr", JSON.stringify(inboxStorage) );
+
+        let pageTitle = document.querySelector('.title');
+        populateNotes(pageTitle);
     }
 
     function editNote() {
