@@ -1,7 +1,10 @@
 import  trashCanIconSrc  from '../images/trash-can-icon.svg';
 import  pencilIconSrc  from '../images/pencil-icon.svg';
+import hamMenuImgSrc from '../images/menu-btn-icon-white.svg';
+import arrowImgSrc from '../images/angle-down-thin.svg';
 import { getInboxStorage } from './application-logic.js';
 import { format } from 'date-fns';
+import { ar } from 'date-fns/locale';
 
 'use strict';
 
@@ -171,6 +174,114 @@ function createCard() {
     return card;
 }
 
+function createLandingPage() {
+    let homePageDiv = document.querySelector('#home-page');
+
+    // Navigation Bar Content
+    let navBarContainer = document.createElement('div');
+    navBarContainer.classList.add('nav-bar-container');
+    homePageDiv.appendChild(navBarContainer);
+
+    let hamMenuBtnContainer = document.createElement('div');
+    hamMenuBtnContainer.classList.add('hamburger-btn-container');
+    navBarContainer.appendChild(hamMenuBtnContainer);
+
+    let hamMenuBtnImg = document.createElement('img');
+    hamMenuBtnImg.classList.add('hamburger-btn');
+    hamMenuBtnImg.setAttribute('src', hamMenuImgSrc);
+    hamMenuBtnContainer.appendChild(hamMenuBtnImg);
+
+    let incrementNoteBtn = document.createElement('div');
+    incrementNoteBtn.classList.add('increment-note-btn');
+    navBarContainer.appendChild(incrementNoteBtn);
+
+    let incrementNoteText = document.createElement('p');
+    incrementNoteText.classList.add('increment-note-text');
+    incrementNoteText.innerHTML = '+';
+    incrementNoteBtn.appendChild(incrementNoteText);
+    
+    let loginBtn = document.createElement('button');
+    loginBtn.classList.add('login-btn');
+    loginBtn.innerHTML = 'Sign In';
+    navBarContainer.appendChild(loginBtn);
+
+    // Left Content Container & Main Container
+
+    let contentContainer = document.createElement('div');
+    contentContainer.classList.add('content-container');
+    homePageDiv.appendChild(contentContainer);
+
+    let leftContentContainer = document.createElement('div');
+    leftContentContainer.classList.add('left-content-container');
+    contentContainer.appendChild(leftContentContainer);
+
+    let tabsContainer = document.createElement('ul');
+    tabsContainer.classList.add('tabs-container');
+    leftContentContainer.appendChild(tabsContainer);
+
+
+    let tabClassesArr = [
+        'inbox-tab',
+        'today-tab',
+        'this-week-tab',
+        'projects-tab',
+    ];
+
+    let tabTextArr = [
+        'Inbox',
+        'Today',
+        'This Week',
+        'Projects',
+    ];
+
+    let numOfTabs = 4;
+    for (let i = 0; i < numOfTabs; ++i) {
+        let tab = document.createElement('li');
+        tab.classList.add('tab');
+
+        if (i === 3) {
+            tab.classList.add('projects-tab-container');
+        }
+
+        tabsContainer.append(tab);
+
+        let tabText = document.createElement('p');
+        tabText.classList.add(tabClassesArr[i]);
+        tabText.classList.add('single-tab');
+        tabText.innerHTML = tabTextArr[i];
+        tab.appendChild(tabText);
+    }
+
+    let projTabContainer = document.querySelector('.projects-tab-container');
+
+    let arrowImg = document.createElement('img');
+    arrowImg.classList.add('arrow-img');
+    arrowImg.setAttribute('src', `${arrowImgSrc}`);
+    projTabContainer.appendChild(arrowImg);
+
+    // Right Content Container
+
+    let rightContentContainer = document.createElement('div');
+    rightContentContainer.classList.add('right-content-container');
+    contentContainer.append(rightContentContainer);
+
+    let infoContainer = document.createElement('div');
+    infoContainer.classList.add('right-content-info-container');
+    rightContentContainer.append(infoContainer);
+
+    let mainTitle = document.createElement('p');
+    mainTitle.classList.add('title');
+    mainTitle.innerHTML = 'Today';
+    infoContainer.appendChild(mainTitle);
+
+    let notesContainer = document.createElement('div');
+    notesContainer.classList.add('notes-container');
+    infoContainer.appendChild(notesContainer);
+
+    // Potentially add code here for "No Content Text";
+    // As a p element with a "no-content-text" class.
+}
+
 let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
 
     function deleteNote(currNote, notePro, noteObj) {
@@ -293,4 +404,5 @@ export {
     createBlackOverlay,
     removeBlackOverlay,
     noteFactory,
+    createLandingPage,
 }
