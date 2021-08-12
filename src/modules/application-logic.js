@@ -90,6 +90,21 @@ function populateNotes(title) {
     if (title.innerHTML === 'Inbox') {
         let inboxStorage = getInboxStorage();
 
+        if (inboxStorage.length === 0) {
+            let notesContainer = document.querySelector('.notes-container');
+            notesContainer.style.display = 'none';
+
+            let noContentText = document.querySelector('.no-content-text');
+            noContentText.style.display = 'block';
+        }
+        else {
+            let notesContainer = document.querySelector('.notes-container');
+            notesContainer.style.display = 'block';
+
+            let noContentText = document.querySelector('.no-content-text');
+            noContentText.style.display = 'none';
+        }
+
         inboxStorage.forEach(note => {
             let noteIndexFromArr = inboxStorage.indexOf(note);
             let notePri = note.priority;
@@ -228,4 +243,5 @@ export {
     incrementNoteListener,
     tabPagePopulation,
     getInboxStorage,
+    populateNotes,
 }
