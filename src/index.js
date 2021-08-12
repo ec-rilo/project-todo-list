@@ -1,9 +1,8 @@
 import './styles/reset.css';
 import './styles/main.css';
-import {tabPagePopulation} from './modules/application-logic.js';
-import {incrementNoteListener} from './modules/application-logic.js';
-
-incrementNoteListener();
+import { tabPagePopulation } from './modules/application-logic.js';
+import { incrementNoteListener } from './modules/application-logic.js';
+import { createLandingPage } from './modules/dom-creation.js';
 
 if(!localStorage.getItem("inboxNotesArr")) {
     localStorage.setItem( "inboxNotesArr", JSON.stringify([]) );
@@ -23,5 +22,7 @@ if(!localStorage.getItem("thisWeekNotesArr")) {
 init();
 
 function init() {
+    createLandingPage();
     tabPagePopulation();
+    incrementNoteListener();
 }
