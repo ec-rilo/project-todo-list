@@ -64,6 +64,7 @@ input {
 
 .hamburger-btn-container {
     grid-area: menu-btn;
+    cursor: pointer;
 }
 
 .hamburger-btn {
@@ -79,6 +80,7 @@ input {
     text-decoration: none;
     width: 30px;
     height: 30px;
+    cursor: pointer;
 }
 
 .increment-note-btn:hover {
@@ -229,7 +231,7 @@ input {
 }
 
 .no-content-text {
-    display: block;
+    display: none;
     position: absolute;
     color: var(--color-3);
     top: 50%;
