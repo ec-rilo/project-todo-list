@@ -246,7 +246,8 @@ function createLandingPage() {
 
         tabsContainer.append(tab);
 
-        let tabText = document.createElement('p');
+        let tabText = document.createElement('a');
+        tabText.setAttribute('href', '#');
         tabText.classList.add(tabClassesArr[i]);
         tabText.classList.add('single-tab');
         tabText.innerHTML = tabTextArr[i];
