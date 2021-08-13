@@ -11,6 +11,7 @@
     --color-1: #0083FF;
     --color-2: #C4C4C4;
     --color-3: #9B9B9B;
+    --color-3-varient: rgba(155, 155, 155, .15);
     --color-4: #FFF;
     --color-5: #000;
     --color-6: rgba(255, 255, 255, .3);
@@ -35,6 +36,10 @@ body {
 
 input {
     box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
 }
 
 .black-overlay {
@@ -170,6 +175,50 @@ input {
     'project-text arrow';
     align-items: center;
     cursor: pointer;
+}
+
+.projects-tab-container:hover {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: var(--color-3-varient);
+}
+
+.projects-tab-container-deco {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: var(--color-3-varient);
+}
+
+.drop-down-li {
+
+}
+
+.drop-down-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-proj-btn-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.add-proj-btn {
+    color: var(--color-1);
+}
+
+.add-proj-icon {
+    display: flex;
+    margin-right: 10px;
+    border-radius: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-1);
+    color: var(--color-4);
+    justify-content: center;
+    align-items: center;
 }
 
 .arrow-img {
