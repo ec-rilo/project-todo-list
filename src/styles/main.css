@@ -9,6 +9,7 @@
 
 :root {
     --color-1: #0083FF;
+    --color-1-variant: rgb(0, 131, 255, .5);
     --color-2: #C4C4C4;
     --color-3: #9B9B9B;
     --color-3-varient: rgba(155, 155, 155, .15);
@@ -210,6 +211,7 @@ a {
 }
 
 .add-proj-icon {
+    box-sizing: border-box;
     display: flex;
     margin-right: 10px;
     border-radius: 5px;
@@ -219,6 +221,10 @@ a {
     color: var(--color-4);
     justify-content: center;
     align-items: center;
+}
+
+.add-proj-btn-container:active .add-proj-icon {
+    background-color: var(--color-1-variant);
 }
 
 .arrow-img {
@@ -569,4 +575,145 @@ Adjust background-color in .close{...}
     height: 20px;
     filter: invert(73%) sepia(14%) saturate(0%) hue-rotate(246deg) brightness(84%) contrast(96%);
     cursor: pointer;
+}
+
+/* Proj Card Styling */
+
+.new-proj-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    width: 750px;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: var(--color-4);
+}
+
+.align-proj-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.new-proj-card-content-container {
+    position: relative;
+    height: 250px;
+    width: 90%;
+}
+
+.new-proj-card-title-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 50px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #C4C4C4;
+}
+
+.proj-input-text {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.card-proj-name-container {
+    width: 90%;
+    margin: 20px auto;
+}
+
+.new-proj-card-title-input {
+    margin-top: 10px;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    font-size: 35px;
+    outline: none;
+    font-weight: bold;
+    border: 2px solid #C4C4C4;
+    border-radius: 5px;
+}
+
+.input-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.new-proj-submission-btns-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 80px;
+    width: 90%;
+    margin: auto;
+    background-color: none; /* Use green to debug */
+    gap: 20px;
+}
+
+.reset-btn {
+    height: 35px;
+    width: 90px;
+    border: 2px solid #9B9B9B;
+    border-radius: 5px;
+    color: #9B9B9B;
+    transition: .2s background-color, .2s color;
+    cursor: pointer;
+}
+
+.submit-btn {
+    height: 35px;
+    width: 90px;
+    background-color: #0083FF;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer
+}
+
+.reset-btn:hover {
+    background-color: #9B9B9B;
+    color: white;
+}
+
+.reset-btn:active {
+    background-color: white;
+}
+
+.proj-close {
+    border-radius: 50%;
+    position: relative;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+    display: block;
+    width: 30px;
+    height: 30px;
+    font-size: 0;
+    transition: .2s opacity;
+}
+.proj-close:before, 
+.proj-close:after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 20px;
+    background-color: #9B9B9B;
+    transform: rotate(45deg) translate(-50%, -50%);
+    transform-origin: top left;
+    content: '';
+}
+.proj-close:after {
+    transform: rotate(-45deg) translate(-50%, -50%);
+}
+
+.proj-close:hover {
+    opacity: .5;
+}
+
+.proj-close:active {
+    opacity: 0;
+}
+
+.align-close-btn {
+    justify-self: end;
 }

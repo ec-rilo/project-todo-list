@@ -10,6 +10,88 @@ import { ar } from 'date-fns/locale';
 
 'use strict';
 
+let cards = (() => {
+
+    function deleteProjCard() {
+        let card = document.querySelector('.new-proj-card');
+        card.remove();
+    }
+
+    function createProjCard() {
+        let card = document.createElement('div');
+        card.classList.add('new-proj-card', 'align-proj-card');
+
+        let contentContainer = document.createElement('div');
+        contentContainer.classList.add('new-proj-card-content-container');
+        card.appendChild(contentContainer);
+
+        let titleContainer = document.createElement('div');
+        titleContainer.classList.add('new-proj-card-title-container', 'proj-input-text');
+        titleContainer.innerHTML = 'New Project';
+        contentContainer.appendChild(titleContainer);
+
+        let closeBtn = document.createElement('a');
+        closeBtn.classList.add('proj-close');
+        closeBtn.classList.add('align-close-btn');
+        closeBtn.setAttribute('href', '#');
+        closeBtn.setAttribute('tabindex', '0');
+        closeBtn.setAttribute('role', 'button');
+        closeBtn.innerHTML = 'close';
+        titleContainer.appendChild(closeBtn);
+
+        closeBtn.addEventListener('click', () => {
+            removeBlackOverlay();
+        });
+
+        let form = document.createElement('form');
+        form.setAttribute('autocomplete', 'off');
+        form.setAttribute('action', '#');
+        form.setAttribute('method', 'GET');
+        contentContainer.appendChild(form);
+
+        let nameContainer = document.createElement('div');
+        nameContainer.classList.add('card-proj-name-container');
+        form.appendChild(nameContainer);
+
+        let nameLabel = document.createElement('label');
+        nameLabel.classList.add('input-title');
+        nameLabel.setAttribute('for', 'new-proj-input');
+        nameLabel.innerHTML = 'Name: ';
+        nameContainer.appendChild(nameLabel);
+
+        let nameInput = document.createElement('input');
+        nameInput.classList.add('new-proj-card-title-input');
+        nameInput.setAttribute('id', 'new-proj-input');
+        nameInput.setAttribute('type', 'text');
+        nameInput.setAttribute('maxLength', '30');
+        nameInput.setAttribute('placeholder', 'Enter Project Name');
+        nameInput.setAttribute('required', '');
+        nameContainer.appendChild(nameInput);
+
+        let submissionBtnsContainer = document.createElement('div');
+        submissionBtnsContainer.classList.add('new-proj-submission-btns-container');
+        form.appendChild(submissionBtnsContainer);
+
+        let resetBtn = document.createElement('button');
+        resetBtn.innerHTML = 'Reset';
+        resetBtn.classList.add('reset-btn');
+        resetBtn.setAttribute('type', 'reset');
+        submissionBtnsContainer.appendChild(resetBtn);
+        
+        let submitBtn = document.createElement('button');
+        submitBtn.innerHTML = 'Add Project';
+        submitBtn.classList.add('submit-btn');
+        submitBtn.setAttribute('type', 'submit');
+        submissionBtnsContainer.appendChild(submitBtn);
+
+        return card;
+    }
+
+    return {
+        createProjCard,
+    }
+})();
+
 function closeCard() {
     let blackOverlay = document.querySelector('.black-overlay');
     let body = document.querySelector('body');
@@ -188,6 +270,17 @@ function createDropDown() {
     addProjBtnContainer.setAttribute('href', '#');
     addProjBtnContainer.classList.add('add-proj-btn-container');
     dropDownContainer.appendChild(addProjBtnContainer);
+
+    addProjBtnContainer.addEventListener('click', () => {
+        let body = document.querySelector('body');
+        
+        let blackOverlay = createBlackOverlay();
+        body.appendChild(blackOverlay);
+
+        let projCard = cards.createProjCard();
+        blackOverlay.appendChild(projCard);
+        
+    });
 
     let addProjIcon = document.createElement('div');
     addProjIcon.innerHTML = '+'
@@ -449,7 +542,7 @@ function createBlackOverlay() {
 }
 
 function removeBlackOverlay() {
-    let blackOverlay = document.createElement('.black-overlay');
+    let blackOverlay = document.querySelector('.black-overlay');
     blackOverlay.remove();
 }
 
@@ -460,4 +553,5 @@ export {
     removeBlackOverlay,
     noteFactory,
     createLandingPage,
+    cards,
 }
