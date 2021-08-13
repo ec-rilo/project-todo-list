@@ -57,6 +57,17 @@ class Tab {
 
 /* Logic */
 
+let compStorage = (() => {
+    function getInboxStorage() {
+        let inboxNotesArr = JSON.parse(localStorage.getItem('inboxNotesArr'));
+        return inboxNotesArr;
+    }
+
+    return {
+        getInboxStorage,
+    }
+})();
+
 function addNoContentText(noContentText) {    
     noContentText.style.display = 'block'; 
 }
@@ -88,7 +99,7 @@ function populateNotes(title) {
     removeCurrNotes();
     
     if (title.innerHTML === 'Inbox') {
-        let inboxStorage = getInboxStorage();
+        let inboxStorage = compStorage.getInboxStorage();
 
         if (inboxStorage.length === 0) {
             let notesContainer = document.querySelector('.notes-container');
@@ -156,14 +167,9 @@ function openCard() {
 
 function handleForm(e) {e.preventDefault();} // prevents form from reloading page.
 
-function getInboxStorage() {
-    let inboxNotesArr = JSON.parse(localStorage.getItem('inboxNotesArr'));
-    return inboxNotesArr;
-}
-
 function storeNote(tabName, note) {
     if (tabName === 'inbox') {
-        let inboxStorage = getInboxStorage();
+        let inboxStorage = compStorage.getInboxStorage();
         
         inboxStorage.push(note);
         localStorage.setItem('inboxNotesArr', JSON.stringify(inboxStorage));
@@ -242,6 +248,6 @@ const tabPagePopulation = (() => {
 export {
     incrementNoteListener,
     tabPagePopulation,
-    getInboxStorage,
+    compStorage,
     populateNotes,
 }

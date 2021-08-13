@@ -3,7 +3,7 @@ import  pencilIconSrc  from '../images/pencil-icon.svg';
 import hamMenuImgSrc from '../images/menu-btn-icon-white.svg';
 import arrowImgSrc from '../images/angle-down-thin.svg';
 import arrowUpImgSrc from '../images/angle-up-arrow.svg';
-import { getInboxStorage } from './application-logic.js';
+import { compStorage } from './application-logic.js';
 import { populateNotes } from './application-logic.js';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
@@ -433,7 +433,7 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
         currNote.remove();
 
          
-        let inboxStorage = getInboxStorage();
+        let inboxStorage = compStorage.getInboxStorage();
         let noteObjIndex = inboxStorage.findIndex( (object) => {
             return object.title === noteObj.title;
         });
@@ -449,7 +449,7 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
     }
 
     function updateNoteCb(noteObj) {
-        let inboxStorage = getInboxStorage();
+        let inboxStorage = compStorage.getInboxStorage();
         let noteObjIndex = inboxStorage.findIndex( (object) => {
             return object.title === noteObj.title;
         });
