@@ -2,6 +2,7 @@ import  trashCanIconSrc  from '../images/trash-can-icon.svg';
 import  pencilIconSrc  from '../images/pencil-icon.svg';
 import hamMenuImgSrc from '../images/menu-btn-icon-white.svg';
 import arrowImgSrc from '../images/angle-down-thin.svg';
+import arrowUpImgSrc from '../images/angle-up-arrow.svg';
 import { getInboxStorage } from './application-logic.js';
 import { populateNotes } from './application-logic.js';
 import { format } from 'date-fns';
@@ -175,6 +176,31 @@ function createCard() {
     return card;
 }
 
+function createDropDown() {
+    let dropDownLi = document.createElement('li');
+    dropDownLi.classList.add('drop-down-li', 'tab');
+
+    let dropDownContainer = document.createElement('div');
+    dropDownContainer.classList.add('drop-down-container');
+    dropDownLi.appendChild(dropDownContainer);
+
+    let addProjBtnContainer = document.createElement('a');
+    addProjBtnContainer.setAttribute('href', '#');
+    addProjBtnContainer.classList.add('add-proj-btn-container');
+    dropDownContainer.appendChild(addProjBtnContainer);
+
+    let addProjIcon = document.createElement('div');
+    addProjIcon.innerHTML = '+'
+    addProjIcon.classList.add('add-proj-icon');
+    addProjBtnContainer.appendChild(addProjIcon);
+
+    let addProjText = document.createElement('p');
+    addProjText.classList.add('add-proj-btn');
+    addProjText.innerHTML = ' Add Project';
+    addProjBtnContainer.appendChild(addProjText);
+    return dropDownLi;
+}
+
 function createLandingPage() {
     let homePageDiv = document.querySelector('#home-page');
 
@@ -260,6 +286,28 @@ function createLandingPage() {
     arrowImg.classList.add('arrow-img');
     arrowImg.setAttribute('src', `${arrowImgSrc}`);
     projTabContainer.appendChild(arrowImg);
+    projTabContainer.setAttribute('id', 'tabInactive');
+
+    
+    projTabContainer.addEventListener('click', () => {
+        if (projTabContainer.getAttribute('id') === 'tabInactive') {
+            projTabContainer.classList.add('projects-tab-container-deco');
+            arrowImg.setAttribute('src', `${arrowUpImgSrc}`);
+            
+            let dropDownLi = createDropDown();
+            tabsContainer.appendChild(dropDownLi);
+
+
+            document.getElementById('tabInactive').id = 'tabActive';
+        }
+        else if (projTabContainer.getAttribute('id') === 'tabActive') {
+            projTabContainer.classList.remove('projects-tab-container-deco');
+            arrowImg.setAttribute('src', `${arrowImgSrc}`);
+            let dropDownLi = document.querySelector('.drop-down-li');
+            dropDownLi.remove();
+            document.getElementById('tabActive').id = 'tabInactive';
+        }
+    });
 
     // Right Content Container
 
