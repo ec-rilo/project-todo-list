@@ -6,6 +6,8 @@ import arrowUpImgSrc from '../images/angle-up-arrow.svg';
 import { compStorage } from './application-logic.js';
 import { populateNotes } from './application-logic.js';
 import { pageLogic } from './application-logic.js';
+import { noteLogic } from './application-logic.js';
+import { handleForm } from './application-logic.js';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
 
@@ -129,7 +131,7 @@ let cards = (() => {
         title.setAttribute('maxLength', '20');
         title.setAttribute('placeholder', 'Enter Task Name');
         title.setAttribute('required', '');
-        title.innerHTML = noteTitle;
+        title.value = noteTitle;
         cardTitleContainer.appendChild(title);
     
         let closeBtn = document.createElement('a');
@@ -166,6 +168,7 @@ let cards = (() => {
         descriptionInput.setAttribute('id', 'description-input');
         descriptionInput.setAttribute('maxLength', '400');
         descriptionInput.setAttribute('required', '');
+        descriptionInput.value = noteDesc;
         descriptionContainer.appendChild(descriptionInput);
     
         let dateContainer = document.createElement('div');
@@ -185,6 +188,7 @@ let cards = (() => {
         dateInput.setAttribute('required', '');
         let currDate = getCurrentDate();
         dateInput.setAttribute('min', `${currDate}`);
+        dateInput.value = noteDate;
         dateContainer.appendChild(dateInput);
     
         let priorityContainer = document.createElement('div');
@@ -204,18 +208,28 @@ let cards = (() => {
         priorityInputContainer.setAttribute('required', '');
         priorityContainer.appendChild(priorityInputContainer);
     
+        
         let priorityOption1 = document.createElement('option');
         priorityOption1.setAttribute('value', 'low');
+        if (notePri === 'low') {
+            priorityOption1.setAttribute('selected', '');   
+        }
         priorityOption1.innerHTML = 'Low';
         priorityInputContainer.appendChild(priorityOption1);
     
         let priorityOption2 = document.createElement('option');
         priorityOption2.setAttribute('value', 'medium');
+        if (notePri === 'medium') {
+            priorityOption2.setAttribute('selected', '');   
+        }
         priorityOption2.innerHTML = 'Medium';
         priorityInputContainer.appendChild(priorityOption2);
     
         let priorityOption3 = document.createElement('option');
         priorityOption3.setAttribute('value', 'high');
+        if (notePri === 'high') {
+            priorityOption3.setAttribute('selected', '');   
+        }
         priorityOption3.innerHTML = 'High';
         priorityInputContainer.append(priorityOption3);
     
@@ -226,6 +240,7 @@ let cards = (() => {
         let projectLabel = document.createElement('label');
         projectLabel.classList.add('input-title');
         projectLabel.setAttribute('for', 'project-input');
+        projectLabel.innerHTML = 'Project:';
         projectContainer.appendChild(projectLabel);
     
         let projectInputContainer = document.createElement('select');
@@ -235,21 +250,28 @@ let cards = (() => {
         projectInputContainer.setAttribute('required', '');
         projectContainer.appendChild(projectInputContainer);
     
-        let projectOption1 = document.createElement('option');
-        projectOption1.setAttribute('value', 'inbox');
-        projectOption1.innerHTML = 'Inbox';
-        projectInputContainer.appendChild(projectOption1);
+        if (noteProj === 'inbox') {
+            let projectOption1 = document.createElement('option');
+            projectOption1.setAttribute('value', 'inbox');
+            projectOption1.setAttribute('selected', '');
+            projectOption1.innerHTML = 'Inbox';
+            projectInputContainer.appendChild(projectOption1);
+        }
     
         let projNameArr = JSON.parse(localStorage.getItem("projectNamesArr"));
         let projNameArrLength = projNameArr.length;
         if (projNameArrLength > 0) {
-    
             let numOfProjOptions = projNameArrLength;
             for (let i = 0; i < numOfProjOptions; ++i) {
-                let projectOption = document.createElement('option');
-                projectOption.setAttribute('value', `${projNameArr[i]}`);
-                projectOption.innerHTML = `${projNameArr[i]}`;
-                projectInputContainer.appendChild(projectOption);
+                if (noteProj === `${projNameArr[i]}`) {
+                    let projectOption = document.createElement('option');
+                    projectOption.setAttribute('value', `${projNameArr[i]}`);
+                    if (noteProj === `${projNameArr[i]}`) {
+                        projectOption.setAttribute('selected', '');   
+                    }
+                    projectOption.innerHTML = `${projNameArr[i]}`;
+                    projectInputContainer.appendChild(projectOption);
+                }
             }
         }
     
@@ -266,7 +288,7 @@ let cards = (() => {
         let submitBtn = document.createElement('button');
         submitBtn.classList.add('submit-btn');
         submitBtn.setAttribute('type', 'submit');
-        submitBtn.innerHTML = 'Add Task';
+        submitBtn.innerHTML = 'Update Task';
         submissionBtnsContainer.appendChild(submitBtn);
     
         return card;
@@ -429,10 +451,14 @@ function createCard() {
     let projNameArrLength = projNameArr.length;
     if (projNameArrLength > 0) {
 
+        let pageTitle = document.querySelector('.title').innerHTML;
         let numOfProjOptions = projNameArrLength;
         for (let i = 0; i < numOfProjOptions; ++i) {
             let projectOption = document.createElement('option');
             projectOption.setAttribute('value', `${projNameArr[i]}`);
+            if (projNameArr[i] === pageTitle) {
+                projectOption.setAttribute('selected', '');
+            }
             projectOption.innerHTML = `${projNameArr[i]}`;
             projectInputContainer.appendChild(projectOption);
         }
@@ -666,8 +692,24 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj, noteStor
     }
 
     function editNote(currNote, noteObj) {
-        // createBlackOverlay();
-        cards.createEditCard(currNote, noteObj);
+        let body = document.querySelector('body');
+        let blackOverlay = createBlackOverlay();
+        let editCard = cards.createEditCard(currNote, noteObj);
+
+        body.appendChild(blackOverlay);
+        blackOverlay.appendChild(editCard);
+
+        editCard.addEventListener('submit', () => {
+            
+            let title = document.querySelector('.title');
+            let note = noteLogic.createNote();
+
+            let projectTab = note.project
+            noteLogic.updateNote(projectTab, note, noteObj);
+
+            closeCard(note);
+            populateNotes(title);
+        });
 
         // Open the black overlay
         // Open a card that is populated with note information.
