@@ -7,6 +7,8 @@ import { noteFactory } from './dom-creation.js';
 
 'use strict'
 
+function handleForm(e) {e.preventDefault();} // prevents form from reloading page.
+
 /* Classes */
 
 class Note {
@@ -58,45 +60,215 @@ class Tab {
 /* Logic */
 
 let compStorage = (() => {
+
     function getInboxStorage() {
         let inboxNotesArr = JSON.parse(localStorage.getItem('inboxNotesArr'));
         return inboxNotesArr;
     }
 
+    function getProjStorage(name) {
+        let projStorage = JSON.parse(localStorage.getItem(`${name}NotesArr`));
+        return projStorage;
+    }
+
+    function deleteUserArr(arrName) {
+        localStorage.removeItem(`${arrName}NotesArr`);
+    }
+
+    function createNewArr(arrName) {
+        localStorage.setItem(`${arrName}NotesArr`, JSON.stringify([]) );
+    }
+
+    function storeArrName(arrName) {
+        let projectNamesArr = JSON.parse(localStorage.getItem("projectNamesArr"));
+
+        projectNamesArr.push(arrName);
+        localStorage.setItem('projectNamesArr', JSON.stringify(projectNamesArr) );
+    }
+
+    function deleteArrName(arrName) {
+        let projectNamesArr = JSON.parse(localStorage.getItem("projectNamesArr"));
+
+        let index = projectNamesArr.indexOf(arrName);
+        projectNamesArr.splice(index, 1);
+        localStorage.setItem('projectNamesArr', JSON.stringify(projectNamesArr) );
+    }
+
+    function getNamesArr() {
+        let namesArr = JSON.parse(localStorage.getItem('projectNamesArr') );
+
+        return namesArr;
+    }
+
+    function storeProjInput(inputName) {
+        let storage = JSON.parse(localStorage.getItem('projInputNames'));
+        storage.push(inputName);
+    }
+
     return {
         getInboxStorage,
+        createNewArr,
+        storeArrName,
+        getNamesArr,
+        getProjStorage,
+        storeProjInput,
+        deleteUserArr,
+        deleteArrName,
     }
 })();
 
-function addNoContentText(noContentText) {    
-    noContentText.style.display = 'block'; 
-}
+let noteLogic = (() => {
 
-function removeNoContentText(noContentText) {
-    noContentText.style.display = 'none';
-}
+    function createNoteObject(titleValue, descriptionValue, dateValue, priorityValue, projectValue) {
+        let note = {
+            title: titleValue,
+            description: descriptionValue,
+            date: dateValue,
+            priority: priorityValue,
+            project: projectValue,
+            checkMarked: false,
+        }
+    
+        return note;
+    }
 
-function loadNotes(tabName, tabStorageArr) {
-    const notesContainer = document.querySelector('.notes-container');
+    function createNote() {
+        let titleValue = document.getElementById('title-input').value;
+        let descripValue = document.getElementById('description-input').value;
+        let dateValue = document.getElementById('date-input').value;
+        let priorityValue = document.getElementById('priority-input').value;
+        let projectValue = document.getElementById('project-input').value;
+    
+        let newNote = createNoteObject(titleValue, descripValue, dateValue, priorityValue, projectValue);
+    
+        return newNote;
+    }
 
-    let numOfNotes = inboxNotesArr.length;
-    for (let i = 0; i < numOfNotes; ++i) {
-        
-    }   
-}
+    function storeNote(tabName, note) {
+        if (tabName === 'inbox') {
+            let inboxStorage = compStorage.getInboxStorage();
+            
+            inboxStorage.push(note);
+            localStorage.setItem('inboxNotesArr', JSON.stringify(inboxStorage));
+        }
+        else if (tabName === 'Today') {
+            console.log('Yea, the notes not storying. It\'s TODAY');
+        }
+        else if (tabName === 'This Week'){
+            console.log('Yea, the notes not storying. It\'s TODAY');
+        }
+        else {
+            let storage = compStorage.getProjStorage(tabName);
 
-function removeCurrNotes() {
-    let notesContainer = document.querySelector('.notes-container');
+            storage.push(note);
+            localStorage.setItem(`${tabName}NotesArr`, JSON.stringify(storage));
+        }
+    }
 
-    while (notesContainer.firstChild) {
-        notesContainer.removeChild(notesContainer.lastChild);
-      }
-    // Select the notes container
-    // remove each item within the notes container.
-}
+    function removeCurrNotes() {
+        let notesContainer = document.querySelector('.notes-container');
+    
+        while (notesContainer.firstChild) {
+            notesContainer.removeChild(notesContainer.lastChild);
+          }
+        // Select the notes container
+        // remove each item within the notes container.
+    }
+
+    return {
+        createNote,
+        storeNote,
+        removeCurrNotes,
+    }
+})();
+
+let pageLogic = (() => {
+    
+    function populateProjectTabs() {
+        let namesArr = compStorage.getNamesArr();
+
+        let projItemsContainer = document.querySelector('.proj-items-container');
+        projItemsContainer.innerHTML = '';
+
+
+        namesArr.forEach((projName) => {
+            let projContainer = document.createElement('div');
+            projContainer.classList.add('proj-tab', 'proj-align');
+
+            let closeBtn = document.createElement('a');
+            closeBtn.classList.add('proj-item-close');
+            
+            closeBtn.setAttribute('href', '#');
+            closeBtn.setAttribute('tabindex', '0');
+            closeBtn.setAttribute('role', 'button');
+            closeBtn.innerHTML = 'close';
+            projContainer.appendChild(closeBtn);
+
+            closeBtn.addEventListener('click', () => {
+                projContainer.remove();
+
+                compStorage.deleteArrName(projName);
+                compStorage.deleteUserArr(projName);
+            });
+            
+            let name = document.createElement('a');
+            name.classList.add('proj-tab-deco')
+            name.setAttribute('href', '#');
+            name.innerHTML = `• ${projName}`;
+
+            name.addEventListener('click', () => {
+                projTabPagePopulation(name, projName);
+            })
+
+            projContainer.appendChild(name);
+
+            projItemsContainer.appendChild(projContainer);
+        });
+    }
+
+    function projTabPagePopulation(projNameTab, projName) {
+        const inboxTab = document.querySelector('.inbox-tab');
+        const todayTab = document.querySelector('.today-tab');
+        const thisWeekTab = document.querySelector('.this-week-tab');
+        const projectsTab = document.querySelector('.projects-tab');
+        let pgTitle = document.querySelector('.title');
+
+        const tabArr = [inboxTab, todayTab, thisWeekTab, projectsTab];
+        tabArr.forEach(tab => {tab.style.fontWeight = 'normal'});
+
+        let projItemsArr = document.querySelectorAll('.proj-tab-deco');
+        projItemsArr.forEach(item => {item.style.fontWeight = 'normal'});
+
+        projNameTab.style.fontWeight = 'bold';
+        pgTitle.innerHTML = `${projName}`;
+        switchTabs();
+    }
+
+    return {
+        populateProjectTabs,
+        projTabPagePopulation,
+    }
+})();
+
+let cardLogic = (() => {
+
+    function openCard() {
+        let body = document.querySelector('body');
+    
+        let blackOverlay = createBlackOverlay();
+        let card = createCard();
+        blackOverlay.appendChild(card);
+    
+        body.appendChild(blackOverlay);
+    }
+
+    return {
+        openCard
+    }
+})();
 
 function populateNotes(title) {
-    removeCurrNotes();
+    noteLogic.removeCurrNotes();
     
     if (title.innerHTML === 'Inbox') {
         let inboxStorage = compStorage.getInboxStorage();
@@ -122,57 +294,44 @@ function populateNotes(title) {
             let noteTitle = note.title;
             let noteProj = note.project;
 
-            let currNote = noteFactory(noteIndexFromArr, notePri, noteTitle, noteProj, note);
+            let currNote = noteFactory(noteIndexFromArr, notePri, noteTitle, noteProj, note, inboxStorage , title.innerHTML);
 
             let notesContainer = document.querySelector('.notes-container');
             notesContainer.appendChild(currNote);
         });
     }
-}
+    else {
+        let titleName = title.innerHTML;
 
-function createNoteObject(titleValue, descriptionValue, dateValue, priorityValue, projectValue) {
-    let note = {
-        title: titleValue,
-        description: descriptionValue,
-        date: dateValue,
-        priority: priorityValue,
-        project: projectValue,
-        checkMarked: false,
-    }
-
-    return note;
-}
-
-function createNote() {
-    let titleValue = document.getElementById('title-input').value;
-    let descripValue = document.getElementById('description-input').value;
-    let dateValue = document.getElementById('date-input').value;
-    let priorityValue = document.getElementById('priority-input').value;
-    let projectValue = document.getElementById('project-input').value;
-
-    let newNote = createNoteObject(titleValue, descripValue, dateValue, priorityValue, projectValue);
-
-    return newNote;
-}
-
-function openCard() {
-    let body = document.querySelector('body');
-
-    let blackOverlay = createBlackOverlay();
-    let card = createCard();
-    blackOverlay.appendChild(card);
-
-    body.appendChild(blackOverlay);
-}
-
-function handleForm(e) {e.preventDefault();} // prevents form from reloading page.
-
-function storeNote(tabName, note) {
-    if (tabName === 'inbox') {
-        let inboxStorage = compStorage.getInboxStorage();
+        let projStorage = compStorage.getProjStorage(titleName);
         
-        inboxStorage.push(note);
-        localStorage.setItem('inboxNotesArr', JSON.stringify(inboxStorage));
+
+        if (projStorage.length === 0) {
+            let notesContainer = document.querySelector('.notes-container');
+            notesContainer.style.display = 'none';
+
+            let noContentText = document.querySelector('.no-content-text');
+            noContentText.style.display = 'block';
+        }
+        else {
+            let notesContainer = document.querySelector('.notes-container');
+            notesContainer.style.display = 'block';
+
+            let noContentText = document.querySelector('.no-content-text');
+            noContentText.style.display = 'none';
+        }
+
+        projStorage.forEach(note => {
+            let noteIndexFromArr = projStorage.indexOf(note);
+            let notePri = note.priority;
+            let noteTitle = note.title;
+            let noteProj = note.project;
+
+            let currNote = noteFactory(noteIndexFromArr, notePri, noteTitle, noteProj, note, projStorage, title.innerHTML);
+
+            let notesContainer = document.querySelector('.notes-container');
+            notesContainer.appendChild(currNote);
+        });
     }
 }
 
@@ -183,16 +342,16 @@ let incrementNoteListener = (() => {
 
     let incrementBtn = document.querySelector('.increment-note-btn');
     incrementBtn.addEventListener('click', () => {
-        openCard();
+        cardLogic.openCard();
 
         let card = document.querySelector('.card');
         card.addEventListener('submit', () => {
             handleForm;
 
-            let note = createNote();
+            let note = noteLogic.createNote();
 
             let projectTab = note.project
-            storeNote(projectTab, note);
+            noteLogic.storeNote(projectTab, note);
 
             closeCard(note);
             populateNotes(title);
@@ -203,15 +362,7 @@ let incrementNoteListener = (() => {
 let switchTabs = (() => {
     const pageTitle = document.querySelector('.title');
 
-    if (pageTitle.innerHTML === 'Inbox') {
-        populateNotes(pageTitle);
-    }
-    else if (pageTitle.innerHTML === 'Today') {
-        populateNotes(pageTitle);
-    }
-    else if (pageTitle.innerHTML === 'This Week') {
-        populateNotes(pageTitle);
-    }
+    populateNotes(pageTitle);
 });
 
 const tabPagePopulation = (() => {
@@ -224,6 +375,9 @@ const tabPagePopulation = (() => {
 
     inboxTab.addEventListener('click', () => {
         tabArr.forEach(tab => {tab.style.fontWeight = 'normal'});
+        let projItemsArr = document.querySelectorAll('.proj-tab-deco');
+        projItemsArr.forEach(item => {item.style.fontWeight = 'normal'});
+
         inboxTab.style.fontWeight = 'bold';
         pgTitle.innerHTML = 'Inbox';
         switchTabs();
@@ -231,6 +385,9 @@ const tabPagePopulation = (() => {
 
     todayTab.addEventListener('click', () => {
         tabArr.forEach(tab => {tab.style.fontWeight = 'normal'});
+        let projItemsArr = document.querySelectorAll('.proj-tab-deco');
+        projItemsArr.forEach(item => {item.style.fontWeight = 'normal'});
+
         todayTab.style.fontWeight = 'bold';
         pgTitle.innerHTML = 'Today';
         switchTabs()
@@ -238,6 +395,9 @@ const tabPagePopulation = (() => {
 
     thisWeekTab.addEventListener('click', () => {
         tabArr.forEach(tab => {tab.style.fontWeight = 'normal'});
+        let projItemsArr = document.querySelectorAll('.proj-tab-deco');
+        projItemsArr.forEach(item => {item.style.fontWeight = 'normal'});
+
         thisWeekTab.style.fontWeight = 'bold';
         pgTitle.innerHTML = 'This Week';
         switchTabs()
@@ -250,4 +410,5 @@ export {
     tabPagePopulation,
     compStorage,
     populateNotes,
+    pageLogic,
 }
