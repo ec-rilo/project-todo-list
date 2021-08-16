@@ -331,10 +331,10 @@ function populateNotes(title) {
         });
     }
     else if (title.innerHTML === 'Today') {
-        
+        // Get all notes that are due at the current date
     }
     else if (title.innerHTML === 'This Week') {
-        console.log('HEYO');
+        // Get all notes that are due between today and the end of the week. 
     }
     else {
         let titleName = title.innerHTML;

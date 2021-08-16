@@ -256,10 +256,8 @@ a {
 .notes-container {
     margin-top: 30px;
     margin-left: 60px;
-    background-color: var(--least-priority-color);
     height: 450px;
     width: 90%;
-    overflow-y: auto;
 }
 
 .note-container {
