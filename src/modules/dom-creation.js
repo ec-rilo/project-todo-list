@@ -3,14 +3,16 @@ import  pencilIconSrc  from '../images/pencil-icon.svg';
 import hamMenuImgSrc from '../images/menu-btn-icon-white.svg';
 import arrowImgSrc from '../images/angle-down-thin.svg';
 import arrowUpImgSrc from '../images/angle-up-arrow.svg';
-import { getInboxStorage } from './application-logic.js';
+import { compStorage } from './application-logic.js';
 import { populateNotes } from './application-logic.js';
+import { pageLogic } from './application-logic.js';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
 
 'use strict';
 
 let cards = (() => {
+    function handleForm(e) {e.preventDefault();} // prevents form from reloading page.
 
     function deleteProjCard() {
         let card = document.querySelector('.new-proj-card');
@@ -47,6 +49,18 @@ let cards = (() => {
         form.setAttribute('autocomplete', 'off');
         form.setAttribute('action', '#');
         form.setAttribute('method', 'GET');
+
+        form.addEventListener('submit', () => {
+            let newProjName = nameInput.value;
+
+            compStorage.createNewArr(newProjName);
+            compStorage.storeArrName(newProjName);
+            pageLogic.populateProjectTabs();
+
+            compStorage.storeProjInput(newProjName);
+            
+            removeBlackOverlay();
+        });
         contentContainer.appendChild(form);
 
         let nameContainer = document.createElement('div');
@@ -87,8 +101,180 @@ let cards = (() => {
         return card;
     }
 
+    function createEditCard(currNote, noteObj) {
+        let noteTitle = noteObj.title
+        let noteProj = noteObj.project;
+        let notePri = noteObj.priority;
+        let noteDesc = noteObj.description;
+        let noteDate = noteObj.date;
+
+        let card = document.createElement('form');
+        card.classList.add('card');
+        card.setAttribute('autocomplete', 'off');
+        card.setAttribute('action', '#');
+        card.setAttribute('method', 'GET');
+    
+        let cardContentContainer = document.createElement('div')
+        cardContentContainer.classList.add('card-content-container');
+        card.appendChild(cardContentContainer);
+    
+        let cardTitleContainer = document.createElement('div');
+        cardTitleContainer.classList.add('card-title-container');
+        cardContentContainer.appendChild(cardTitleContainer);
+    
+        let title = document.createElement('input');
+        title.setAttribute('id', 'title-input');
+        title.classList.add('card-title-input');
+        title.setAttribute('type', 'text');
+        title.setAttribute('maxLength', '20');
+        title.setAttribute('placeholder', 'Enter Task Name');
+        title.setAttribute('required', '');
+        title.innerHTML = noteTitle;
+        cardTitleContainer.appendChild(title);
+    
+        let closeBtn = document.createElement('a');
+        closeBtn.setAttribute('href', '#');
+        closeBtn.classList.add('close');
+        closeBtn.setAttribute('tabindex', '0');
+        closeBtn.setAttribute('role', 'button');
+        closeBtn.innerHTML = 'close';
+        closeBtn.addEventListener('click', () => {
+            closeCard();
+        });
+        cardTitleContainer.appendChild(closeBtn);
+    
+        let horizontalLine = document.createElement('div');
+        horizontalLine.classList.add('horizontal-line');
+        cardContentContainer.appendChild(horizontalLine);
+    
+        let cardContent = document.createElement('div');
+        cardContent.classList.add('card-content');
+        cardContentContainer.appendChild(cardContent);
+    
+        let descriptionContainer = document.createElement('div');
+        descriptionContainer.classList.add('card-description-container');
+        cardContent.appendChild(descriptionContainer);
+    
+        let descriptionLabel = document.createElement('label');
+        descriptionLabel.classList.add('input-title');
+        descriptionLabel.setAttribute('for', 'description-input');
+        descriptionLabel.innerHTML = 'Description:';
+        descriptionContainer.appendChild(descriptionLabel);
+    
+        let descriptionInput = document.createElement('textarea');
+        descriptionInput.classList.add('input-styling');
+        descriptionInput.setAttribute('id', 'description-input');
+        descriptionInput.setAttribute('maxLength', '400');
+        descriptionInput.setAttribute('required', '');
+        descriptionContainer.appendChild(descriptionInput);
+    
+        let dateContainer = document.createElement('div');
+        dateContainer.classList.add('card-date-container');
+        cardContent.appendChild(dateContainer);
+    
+        let dateLabel = document.createElement('label');
+        dateLabel.classList.add('input-title');
+        dateLabel.setAttribute('for', 'date-input');
+        dateLabel.innerHTML = 'Due Date:';
+        dateContainer.appendChild(dateLabel);
+    
+        let dateInput = document.createElement('input');
+        dateInput.classList.add('input-styling', 'card-input');
+        dateInput.setAttribute('id', 'date-input');
+        dateInput.setAttribute('type', 'date');
+        dateInput.setAttribute('required', '');
+        let currDate = getCurrentDate();
+        dateInput.setAttribute('min', `${currDate}`);
+        dateContainer.appendChild(dateInput);
+    
+        let priorityContainer = document.createElement('div');
+        priorityContainer.classList.add('card-priority-container');
+        cardContent.appendChild(priorityContainer);
+    
+        let priorityLabel = document.createElement('label');
+        priorityLabel.classList.add('input-title');
+        priorityLabel.setAttribute('for', 'priority-input');
+        priorityLabel.innerHTML = 'Priority:';
+        priorityContainer.appendChild(priorityLabel);
+    
+        let priorityInputContainer = document.createElement('select');
+        priorityInputContainer.classList.add('input-styling', 'card-input');
+        priorityInputContainer.setAttribute('type', 'text');
+        priorityInputContainer.setAttribute('id', 'priority-input');
+        priorityInputContainer.setAttribute('required', '');
+        priorityContainer.appendChild(priorityInputContainer);
+    
+        let priorityOption1 = document.createElement('option');
+        priorityOption1.setAttribute('value', 'low');
+        priorityOption1.innerHTML = 'Low';
+        priorityInputContainer.appendChild(priorityOption1);
+    
+        let priorityOption2 = document.createElement('option');
+        priorityOption2.setAttribute('value', 'medium');
+        priorityOption2.innerHTML = 'Medium';
+        priorityInputContainer.appendChild(priorityOption2);
+    
+        let priorityOption3 = document.createElement('option');
+        priorityOption3.setAttribute('value', 'high');
+        priorityOption3.innerHTML = 'High';
+        priorityInputContainer.append(priorityOption3);
+    
+        let projectContainer = document.createElement('div');
+        projectContainer.classList.add('card-project-container');
+        cardContent.appendChild(projectContainer);
+    
+        let projectLabel = document.createElement('label');
+        projectLabel.classList.add('input-title');
+        projectLabel.setAttribute('for', 'project-input');
+        projectContainer.appendChild(projectLabel);
+    
+        let projectInputContainer = document.createElement('select');
+        projectInputContainer.classList.add('input-styling', 'card-input');
+        projectInputContainer.setAttribute('type', 'text');
+        projectInputContainer.setAttribute('id', 'project-input');
+        projectInputContainer.setAttribute('required', '');
+        projectContainer.appendChild(projectInputContainer);
+    
+        let projectOption1 = document.createElement('option');
+        projectOption1.setAttribute('value', 'inbox');
+        projectOption1.innerHTML = 'Inbox';
+        projectInputContainer.appendChild(projectOption1);
+    
+        let projNameArr = JSON.parse(localStorage.getItem("projectNamesArr"));
+        let projNameArrLength = projNameArr.length;
+        if (projNameArrLength > 0) {
+    
+            let numOfProjOptions = projNameArrLength;
+            for (let i = 0; i < numOfProjOptions; ++i) {
+                let projectOption = document.createElement('option');
+                projectOption.setAttribute('value', `${projNameArr[i]}`);
+                projectOption.innerHTML = `${projNameArr[i]}`;
+                projectInputContainer.appendChild(projectOption);
+            }
+        }
+    
+        let submissionBtnsContainer = document.createElement('div');
+        submissionBtnsContainer.classList.add('submission-btns-container');
+        cardContentContainer.appendChild(submissionBtnsContainer);
+    
+        let resetBtn = document.createElement('button');
+        resetBtn.classList.add('reset-btn');
+        resetBtn.setAttribute('type', 'reset');
+        resetBtn.innerHTML = 'Reset Task';
+        submissionBtnsContainer.appendChild(resetBtn);
+    
+        let submitBtn = document.createElement('button');
+        submitBtn.classList.add('submit-btn');
+        submitBtn.setAttribute('type', 'submit');
+        submitBtn.innerHTML = 'Add Task';
+        submissionBtnsContainer.appendChild(submitBtn);
+    
+        return card;
+    }
+
     return {
         createProjCard,
+        createEditCard,
     }
 })();
 
@@ -239,6 +425,19 @@ function createCard() {
     projectOption1.innerHTML = 'Inbox';
     projectInputContainer.appendChild(projectOption1);
 
+    let projNameArr = JSON.parse(localStorage.getItem("projectNamesArr"));
+    let projNameArrLength = projNameArr.length;
+    if (projNameArrLength > 0) {
+
+        let numOfProjOptions = projNameArrLength;
+        for (let i = 0; i < numOfProjOptions; ++i) {
+            let projectOption = document.createElement('option');
+            projectOption.setAttribute('value', `${projNameArr[i]}`);
+            projectOption.innerHTML = `${projNameArr[i]}`;
+            projectInputContainer.appendChild(projectOption);
+        }
+    }
+
     let submissionBtnsContainer = document.createElement('div');
     submissionBtnsContainer.classList.add('submission-btns-container');
     cardContentContainer.appendChild(submissionBtnsContainer);
@@ -260,16 +459,20 @@ function createCard() {
 
 function createDropDown() {
     let dropDownLi = document.createElement('li');
-    dropDownLi.classList.add('drop-down-li', 'tab');
+    dropDownLi.classList.add('drop-down-li');
 
-    let dropDownContainer = document.createElement('div');
-    dropDownContainer.classList.add('drop-down-container');
-    dropDownLi.appendChild(dropDownContainer);
+    let projItemsContainer = document.createElement('div');
+    projItemsContainer.classList.add('proj-items-container');
+    dropDownLi.appendChild(projItemsContainer);
+
+    let addProjMasterContainer = document.createElement('div');
+    addProjMasterContainer.classList.add('add-proj-master-container');
+    dropDownLi.appendChild(addProjMasterContainer);
 
     let addProjBtnContainer = document.createElement('a');
     addProjBtnContainer.setAttribute('href', '#');
     addProjBtnContainer.classList.add('add-proj-btn-container');
-    dropDownContainer.appendChild(addProjBtnContainer);
+    addProjMasterContainer.appendChild(addProjBtnContainer);
 
     addProjBtnContainer.addEventListener('click', () => {
         let body = document.querySelector('body');
@@ -379,26 +582,30 @@ function createLandingPage() {
     arrowImg.classList.add('arrow-img');
     arrowImg.setAttribute('src', `${arrowImgSrc}`);
     projTabContainer.appendChild(arrowImg);
-    projTabContainer.setAttribute('id', 'tabInactive');
+    projTabContainer.classList.add('inactive');
 
     
     projTabContainer.addEventListener('click', () => {
-        if (projTabContainer.getAttribute('id') === 'tabInactive') {
+        if (projTabContainer.classList.contains('inactive')) {
             projTabContainer.classList.add('projects-tab-container-deco');
             arrowImg.setAttribute('src', `${arrowUpImgSrc}`);
             
             let dropDownLi = createDropDown();
             tabsContainer.appendChild(dropDownLi);
+            pageLogic.populateProjectTabs();
 
-
-            document.getElementById('tabInactive').id = 'tabActive';
+            projTabContainer.classList.toggle('inactive');
+            projTabContainer.classList.toggle('active');
         }
-        else if (projTabContainer.getAttribute('id') === 'tabActive') {
+        else if (projTabContainer.classList.contains('active')) {
             projTabContainer.classList.remove('projects-tab-container-deco');
             arrowImg.setAttribute('src', `${arrowImgSrc}`);
+            
             let dropDownLi = document.querySelector('.drop-down-li');
             dropDownLi.remove();
-            document.getElementById('tabActive').id = 'tabInactive';
+
+            projTabContainer.classList.toggle('active');
+            projTabContainer.classList.toggle('inactive');
         }
     });
 
@@ -427,29 +634,89 @@ function createLandingPage() {
     infoContainer.appendChild(noContentText);
 }
 
-let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
+let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj, noteStorage, storageName) => {
 
-    function deleteNote(currNote, notePro, noteObj) {
-        currNote.remove();
+    function deleteNote(currNote, noteObj) {
+        
+        if (storageName === 'Inbox') {
+            currNote.remove();
+        
+            let inboxStorage = compStorage.getInboxStorage();
+            let noteObjIndex = inboxStorage.findIndex( (object) => {
+                return object.title === noteObj.title;
+            });
+            inboxStorage.splice(noteObjIndex, 1);
+            localStorage.setItem( "inboxNotesArr", JSON.stringify(inboxStorage) );
 
-         
-        let inboxStorage = getInboxStorage();
-        let noteObjIndex = inboxStorage.findIndex( (object) => {
-            return object.title === noteObj.title;
-        });
-        inboxStorage.splice(noteObjIndex, 1);
-        localStorage.setItem( "inboxNotesArr", JSON.stringify(inboxStorage) );
+            let pageTitle = document.querySelector('.title');
+            populateNotes(pageTitle);
+        }
+        else {
+            currNote.remove();
 
-        let pageTitle = document.querySelector('.title');
-        populateNotes(pageTitle);
+            let noteObjIndex = noteStorage.findIndex( (object) => {
+                return object.title === noteObj.title;
+            });
+            noteStorage.splice(noteObjIndex, 1);
+            localStorage.setItem( `${storageName}NotesArr`, JSON.stringify(noteStorage) );
+
+            let pageTitle = document.querySelector('.title');
+            populateNotes(pageTitle);
+        }
     }
 
-    function editNote() {
+    function editNote(currNote, noteObj) {
+        // createBlackOverlay();
+        cards.createEditCard(currNote, noteObj);
 
+        // Open the black overlay
+        // Open a card that is populated with note information.
+        // If user clicks the close button. The card closes.
+        // Else if user submits.
+
+        // update the current note with the new details.
+        // remove the current note on the page.
+        // Remove the note from the array
+        // Insert the revised note into the page
+        // insert the revised note into the array.
+
+
+        /*
+
+        if (storageName === 'Inbox') {
+            currNote.remove();
+        
+            let inboxStorage = compStorage.getInboxStorage();
+            let noteObjIndex = inboxStorage.findIndex( (object) => {
+                return object.title === noteObj.title;
+            });
+            inboxStorage.splice(noteObjIndex, 1);
+
+
+
+            localStorage.setItem( "inboxNotesArr", JSON.stringify(inboxStorage) );
+
+            let pageTitle = document.querySelector('.title');
+            populateNotes(pageTitle);
+        }
+        else {
+            currNote.remove();
+
+            let noteObjIndex = noteStorage.findIndex( (object) => {
+                return object.title === noteObj.title;
+            });
+            noteStorage.splice(noteObjIndex, 1);
+            localStorage.setItem( `${storageName}NotesArr`, JSON.stringify(noteStorage) );
+
+            let pageTitle = document.querySelector('.title');
+            populateNotes(pageTitle);
+        }
+
+        */
     }
 
     function updateNoteCb(noteObj) {
-        let inboxStorage = getInboxStorage();
+        let inboxStorage = compStorage.getInboxStorage();
         let noteObjIndex = inboxStorage.findIndex( (object) => {
             return object.title === noteObj.title;
         });
@@ -515,11 +782,13 @@ let noteFactory = (noteNum, notePriority, titleText, noteProj, noteObj) => {
         editBtnImg.classList.add('edit-btn-img');
         editBtnContainer.appendChild(editBtnImg);
 
+        editBtnContainer.addEventListener('click', () => editNote(note, noteObj));
+
         let deleteBtnContainer = document.createElement('div');
         deleteBtnContainer.classList.add('delete-btn-container');
         note.appendChild(deleteBtnContainer);
 
-        deleteBtnContainer.addEventListener('click', () => deleteNote(note, noteProj, noteObj));
+        deleteBtnContainer.addEventListener('click', () => deleteNote(note, noteObj));
 
         let deleteBtnImg = document.createElement('img');
         deleteBtnImg.classList.add('delete-btn-img');

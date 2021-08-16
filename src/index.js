@@ -16,6 +16,14 @@ if(!localStorage.getItem("thisWeekNotesArr")) {
     localStorage.setItem( "thisWeekNotesArr", JSON.stringify([]) );
 }
 
+if(!localStorage.getItem("projectNamesArr")) {
+    localStorage.setItem( "projectNamesArr", JSON.stringify([]) );
+}
+
+if(!localStorage.getItem("projInputNames")) {
+    localStorage.setItem( "projInputNames", JSON.stringify([]) );
+}
+
 // let storedInboxNotes = JSON.parse(localStorage.getItem('inboxNotes'));
 // The above is how to call the array set in local storage
 
