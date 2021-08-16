@@ -165,6 +165,35 @@ let noteLogic = (() => {
         }
     }
 
+    function updateNote(tabName, note, prevNote) {
+        if (tabName === 'inbox') {
+            let inboxStorage = compStorage.getInboxStorage();
+
+            let prevNoteIndex = inboxStorage.findIndex(x => x.title === prevNote.title);
+
+            inboxStorage.splice(prevNoteIndex, 1);
+            inboxStorage.splice(prevNoteIndex, 0, note);
+
+            localStorage.setItem('inboxNotesArr', JSON.stringify(inboxStorage));
+        }
+        else if (tabName === 'Today') {
+            console.log('Yea, the notes not storying. It\'s TODAY');
+        }
+        else if (tabName === 'This Week'){
+            console.log('Yea, the notes not storying. It\'s TODAY');
+        }
+        else {
+            let storage = compStorage.getProjStorage(tabName);
+
+            let prevNoteIndex = storage.findIndex(x => x.title === prevNote.title);
+
+            storage.splice(prevNoteIndex, 1);
+            storage.splice(prevNoteIndex, 0, note);
+
+            localStorage.setItem(`${tabName}NotesArr`, JSON.stringify(storage));
+        }
+    }
+
     function removeCurrNotes() {
         let notesContainer = document.querySelector('.notes-container');
     
@@ -179,6 +208,7 @@ let noteLogic = (() => {
         createNote,
         storeNote,
         removeCurrNotes,
+        updateNote,
     }
 })();
 
@@ -300,6 +330,12 @@ function populateNotes(title) {
             notesContainer.appendChild(currNote);
         });
     }
+    else if (title.innerHTML === 'Today') {
+        
+    }
+    else if (title.innerHTML === 'This Week') {
+        console.log('HEYO');
+    }
     else {
         let titleName = title.innerHTML;
 
@@ -411,4 +447,6 @@ export {
     compStorage,
     populateNotes,
     pageLogic,
+    handleForm,
+    noteLogic,
 }
