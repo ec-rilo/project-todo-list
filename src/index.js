@@ -20,8 +20,8 @@ if(!localStorage.getItem("projectNamesArr")) {
     localStorage.setItem( "projectNamesArr", JSON.stringify([]) );
 }
 
-if(!localStorage.getItem("projInputNames")) {
-    localStorage.setItem( "projInputNames", JSON.stringify([]) );
+if(!localStorage.getItem("allNotesArr")) {
+    localStorage.setItem( "allNotesArr", JSON.stringify([]) );
 }
 
 // let storedInboxNotes = JSON.parse(localStorage.getItem('inboxNotes'));
